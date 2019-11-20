@@ -20,7 +20,6 @@ PrintBCDNum:
 	lsr
 	lsr
 	lsr
-	and	#$0F		; Ensure high nibble is 0
 	clc
 	adc	#$30		; Convert low nibble to PETSCII character
 	jsr	CHROUT
