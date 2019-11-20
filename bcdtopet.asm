@@ -20,13 +20,11 @@ PrintBCDNum:
 	lsr
 	lsr
 	lsr
-	clc
-	adc	#$30		; Convert low nibble to PETSCII character
+	ora	#$30		; Convert low nibble to PETSCII character
 	jsr	CHROUT
 	lda	.BCDnum		; Load number again to work on low nibble
 	and	#$0F		; Ensure high nibble is 0
-	clc
-	adc	#$30		; Convert low nibble to PETSCII character
+	ora	#$30		; Convert low nibble to PETSCII character
 	jsr	CHROUT
 	rts
 
