@@ -7,11 +7,11 @@
 
 CHROUT=$FFD2
 
-	jsr	PrintBCDNum
+	jsr	PrintBCDNum	; Will print 19
 	lda	#13		; Print a newline
 	jsr	CHROUT
 	jsr	IncBCDNum
-	jsr	PrintBCDNum
+	jsr	PrintBCDNum	; Will print 20 instead of 1A
 	rts
 
 PrintBCDNum:
