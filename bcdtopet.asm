@@ -14,7 +14,7 @@ CHROUT=$FFD2
 	jsr	PrintBCDNum	; Will print 19
 	lda	#13		; Print a newline
 	jsr	CHROUT
-	jsr	IncBCDNum
+	jsr	IncBCDNum	; Maybe this should be a macro ?
 	jsr	PrintBCDNum	; Will print 20 instead of 1A
 	rts
 
