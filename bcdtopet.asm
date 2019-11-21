@@ -1,9 +1,13 @@
+; This program prints the BCD encoded number from .BCDnum variable
+; to screen, increments the number and prints it to screen again.
+; This example is made solely to showcase how easy it is to convert
+; a BCD encoded number to PETSCII.
 
 *=$0801
 
 !byte $0C,$08,$0A,$00,$9E,$20,$32,$30,$36,$34,$00,$00,$00
 
-*=$0810			; Here starts the real program
+*=$0810			
 
 CHROUT=$FFD2
 
