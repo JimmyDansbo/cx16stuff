@@ -19,6 +19,7 @@
 ; When this constant is 0, the program behaves nicely and continues to
 ; the original interrupt handler.
 ; When it is set to 1, the program just ends the IRQ.
+; Program needs to be re-assembled for this to take effect.
 Steal_IRQ 	= 0
 
 vera_addr_low	= $9F20
