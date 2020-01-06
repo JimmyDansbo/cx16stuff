@@ -182,35 +182,33 @@ CHRIN		= $FFCF
 	jsr	SetInc
 
 
-	ldx	#10
+	ldx	#1
 	ldy	#40
 	jsr	GotoXY
-	lda	#$DD
-	sta	VERA_DATA0
-	lda	#$E2
-	sta	VERA_DATA0
-	lda	#$E4
-	sta	VERA_DATA0
+	ldx	#<.gate1
+	ldy	#>.gate1
+	jsr	PrintStr
 
-	ldx	#10
+	ldx	#1
 	ldy	#41
 	jsr	GotoXY
-	lda	#$DF
-	sta	VERA_DATA0
-	lda	#' '
-	sta	VERA_DATA0
-	lda	#$E7
-	sta	VERA_DATA0
+	ldx	#<.gate2
+	ldy	#>.gate2
+	jsr	PrintStr
 
-	ldx	#10
+	ldx	#1
 	ldy	#42
 	jsr	GotoXY
-	lda	#$E1
-	sta	VERA_DATA0
-	lda	#$E3
-	sta	VERA_DATA0
-	lda	#$E5
-	sta	VERA_DATA0
+	ldx	#<.gate3
+	ldy	#>.gate3
+	jsr	PrintStr
+
+	ldx	#1
+	ldy	#39
+	jsr	GotoXY
+	ldx	#<.gnames
+	ldy	#>.gnames
+	jsr	PrintStr
 
 	jsr	CHRIN
 
@@ -290,6 +288,13 @@ PrintStr:
 	cpy	$02		; Check if Y has reached length
 	bne	.doprint	; If not, print next character
 	rts
+
+.gnames	!byte	37,$01,$0E,$04,' ',' ',$0E,$01,$0E,$04,' ',$0F,$12,' ',' ',' ',$0E,$0F,$12,' ',' ',$18,$0F,$12,' ',' ',$18,$0E,$0F,$12,' ',$0E,$0F,$14,' ',$02,$15,$06
+;		   AND			NAND		    OR		       NOR		   XOR		       XNOR		   NOT		   BUFFER
+.gate1	!byte	36,$DD,$E2,$E4,' ',' ',$DE,$E2,$E4,' ',' ',$E8,$ED,$EF,' ',' ',$E9,$ED,$EF,' ',' ',$F3,$F7,$EF,' ',' ',$F4,$F7,$EF,' ',' ',$FA,' ',' ',' ',$FA,' '
+.gate2	!byte	36,$DF,' ',$E6,' ',' ',$DF,' ',$E7,' ',' ',$EA,' ',$F1,' ',' ',$EA,' ',$F2,' ',' ',$EA,$F9,$F1,' ',' ',$EA,$F9,$F2,' ',' ',$FC,$FE,' ',' ',$FD,$FF
+.gate3	!byte	36,$E0,$E3,$E5,' ',' ',$E1,$E3,$E5,' ',' ',$EB,$EE,$F0,' ',' ',$EC,$EE,$F0,' ',' ',$F5,$F8,$F0,' ',' ',$F6,$F8,$F0,' ',' ',$FB,' ',' ',' ',$FB,' '
+
 
 .lin01	!byte	$21,$20,$20,$30,$20,$31,$20,$32,$20,$33,$20,$34,$20,$35,$20,$36,$20
 	!byte	$37,$20,$38,$20,$39,$20,$01,$20,$02,$20,$03,$20,$04,$20,$05,$20,$06
