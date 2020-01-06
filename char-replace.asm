@@ -1,3 +1,4 @@
+!to "chartest.prg",cbm
 *=$0801
 	!src	"cx16.inc"
 	+SYS_LINE
