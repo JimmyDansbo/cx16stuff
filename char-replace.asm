@@ -275,17 +275,17 @@ PrintStr:
 	jsr	SetInc
 
 	; Store address of string in ZP memory
-	stx	$00
-	sty	$01
+	stx	TMP0
+	sty	TMP1
 	ldy	#0
-	lda	($00), Y	; Get length of string
-	sta	$02		; Store length in ZP for later
+	lda	(TMP0), Y	; Get length of string
+	sta	TMP2		; Store length in ZP for later
 	ldy	#0
 .doprint:
 	iny
-	lda	($00), Y	; Load character from string
+	lda	(TMP0), Y	; Load character from string
 	sta	VERA_DATA0	; Write character to VERA
-	cpy	$02		; Check if Y has reached length
+	cpy	TMP2		; Check if Y has reached length
 	bne	.doprint	; If not, print next character
 	rts
 
