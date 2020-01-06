@@ -1,5 +1,5 @@
 *=$0801
-	!src	"cx16stuff/cx16.inc"
+	!src	"cx16.inc"
 	+SYS_LINE
 *=$0810
 
@@ -12,7 +12,7 @@ VERA_CTRL	= VERA_ADDR_LO+5
 CHROUT		= $FFD2
 CHRIN		= $FFCF
 
-	lda	#$10		; White background, black text
+	lda	#(WHITE<<4)+BLACK; White background, black text
 	sta	COLORPORT
 	lda	#147		; Clear screen
 	jsr	CHROUT
