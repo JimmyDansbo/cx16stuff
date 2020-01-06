@@ -2,8 +2,23 @@
 CX16_INC=1
 
 KERNALVER	= $FF80
-VIA1PA		= $9F61
-VIA1PB		= $9F60
+VIA1		= $9F60
+VIA1PA		= VIA1+1
+VIA1PB		= VIA1+0
+VIA2		= $9F70
+VIA2PA		= VIA2+1
+VIA2PB		= VIA2+0
+
+; Emulator
+GIFCTRL		= $9FB5
+
+; IRQ
+IRQVECTOR	= $0314
+
+; Text mode ports (not supported and changes between ROM releases)
+COLORPORT	= $0376
+NUMCOLS		= $0386
+NUMLINES	= $0387
 
 ; ROM Bank allocations
 KERNAL_BANK	= 0
@@ -13,58 +28,102 @@ GEOS_BANK	= 3
 BASIC_BANK	= 4
 MONITOR_BANK	= 5
 
+; ZeroPage variables/pointers
 TMP0		= $00
 TMP1		= $01
+TMP2		= $22
+TMP3		= $23
+TMP4		= $24
+TMP5		= $26
+TMP7		= $27
+TMP8		= $28
+TMP9		= $29
+
+; PETSCII color codes
+PET_BLACK	= $90
+PET_WHITE	= $05
+PET_RED		= $1C
+PET_CYAN	= $9F
+PET_PURPLE	= $9C
+PET_GREEN	= $1E
+PET_BLUE	= $1F
+PET_YELLOW	= $9E
+PET_ORANGE	= $81
+PET_BROWN	= $95
+PET_LIGHTRED	= $96
+PET_DARKGRAY	= $97
+PET_MIDGRAY	= $98
+PET_LIGHTGREEN	= $99
+PET_LIGHTBLUE	= $9A
+PET_LIGHTGRAY	= $9B
+
+; Color values
+BLACK		= 0
+WHITE		= 1
+RED		= 2
+CYAN		= 3
+PURPLE		= 4
+GREEN		= 5
+BLUE		= 6
+YELLOW		= 7
+ORANGE		= 8
+BROWN		= 9
+LIGHTRED	= 10
+DARKGRAY	= 11
+MIDGRAY		= 12
+LIGHTGREEEN	= 13
+LIGHTBLUE	= 14
+LIGHTGRAY	= 15
 
 ; "ABI" registers in ZeroPage
 r0		= $02
-r0l		= $02
-r0h		= $03
+r0l		= r0
+r0h		= r0+1
 r1		= $04
-r1l		= $04
-r1h		= $05
+r1l		= r1
+r1h		= r1+1
 r2		= $06
-r2l		= $06
-r2h		= $07
+r2l		= r2
+r2h		= r2+1
 r3		= $08
-r3l		= $08
-r3h		= $09
+r3l		= r3
+r3h		= r3+1
 r4		= $0A
-r4l		= $0A
-r4h		= $0B
+r4l		= r4
+r4h		= r4+1
 r5		= $0C
-r5l		= $0C
-r5h		= $0D
+r5l		= r5
+r5h		= r5+1
 r6		= $0E
-r6l		= $0E
-r6h		= $0F
+r6l		= r6
+r6h		= r6+1
 r7		= $10
-r7l		= $10
-r7h		= $11
+r7l		= r7
+r7h		= r7+1
 r8		= $12
-r8l		= $12
-r8h		= $13
+r8l		= r8
+r8h		= r8+1
 r9		= $14
-r9l		= $14
-r9h		= $15
+r9l		= r9
+r9h		= r9+1
 r10		= $16
-r10l		= $16
-r10h		= $17
+r10l		= r10
+r10h		= r10+1
 r11		= $18
-r11l		= $18
-r11h		= $19
+r11l		= r11
+r11h		= r11+1
 r12		= $1A
-r12l		= $1A
-r12h		= $1B
+r12l		= r12
+r12h		= r12+1
 r13		= $1C
-r13l		= $1C
-r13h		= $1D
+r13l		= r13
+r13h		= r13+1
 r14		= $1E
-r14l		= $1E
-r14h		= $1F
+r14l		= r14
+r14h		= r14+1
 r15		= $20
-r15l		= $20
-r15h		= $21
+r15l		= r15
+r15h		= r15+1
 
 !macro SYS_LINE {
 	!byte $0C,$08,$0A,$00,$9E,' ','2','0','6','4',$00,$00,$00
