@@ -126,7 +126,11 @@ r15l		= r15
 r15h		= r15+1
 
 !macro SYS_LINE {
-	!byte $0C,$08,$0A,$00,$9E,' ','2','0','6','4',$00,$00,$00
+	!word	$080C		; Pointer next BASIC line
+	!word	$000A		; Line number $000A = 10
+	!byte	$9E		; SYS BASIC token
+	!pet	" $810",0	; Address where ASM starts
+	!word	$0000		; EOF BASIC program
 }
 
 ;******************************************************************************
