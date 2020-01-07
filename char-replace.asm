@@ -36,24 +36,19 @@ CHRIN		= $FFCF
 	ldy	#0
 	ldx	#35		; number of characters to replace in font
 .outloop:
-	txa			; Save .X on stack
-	pha
+	stx	TMP2		; Save .X in ZP location
 	ldx	#8		; Counter for bytes in a character
 -	lda	(TMP0),y
 	sta	VERA_DATA0
-	clc			; Add 1 to address storead in ZP
-	lda	#1
-	adc	TMP0
-	sta	TMP0
-	lda	#0
-	adc	TMP1
-	sta	TMP1
+	inc	TMP0		; Add 1 to 16 bit address stored in ZP
+	bne	.noinc
+	inc	TMP0+1
+.noinc:
 	dex
 	bne	-		; Jump back and do next byte of character
-	pla			; Pull .X from stack
-	tax
+	ldx	TMP2		; Restore .X from ZP
 	dex
-	bne	.outloop	; While we have not don all chars, jump back
+	bne	.outloop	; While we have not done all chars, jump back
 
 ; ******* Code below is just for showing that the characters have been *****
 ; ******* placed into VERAs memory. ****************************************
