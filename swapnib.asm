@@ -1,7 +1,9 @@
-!to	"swapnib.prg",cbm
 *=$0801
-	!src	"cx16.inc"
-	+SYS_LINE
+	!word	$080C		; Pointer to next BASIC line
+	!word	$000A		; Line number $000A = 10
+	!byte	$9E		; SYS BASIC token
+	!pet	" $810",0	; Address where ASM starts
+	!word	$0000		; EOF BASIC program
 *=$0810
 
 ;******************************************************************************
@@ -16,7 +18,7 @@
 	!byte $ff	; Break into the debugger
 
 	lda	#$F5	; Set the nibbles that are going to be swapped
-	sta	TMP0	; Store en ZP for easy comparison after swap
+	sta	$00	; Store en ZP for easy comparison after swap
 	; 'Magic' code that swaps nibbles in .A
 	asl
 	adc	#$80
@@ -25,7 +27,7 @@
 	adc	#$80
 	rol
 	; Nibbles are now swapped.
-	sta	TMP1	; Store in ZP, now compare with ZP addr $00
+	sta	$01	; Store in ZP, now compare with ZP addr $00
 			; to see that the nibbles are swapped
 
 	rts
