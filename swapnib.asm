@@ -16,7 +16,7 @@
 	!byte $ff	; Break into the debugger
 
 	lda	#$F5	; Set the nibbles that are going to be swapped
-	sta	$00	; Store en ZP for easy comparison after swap
+	sta	TMP0	; Store en ZP for easy comparison after swap
 	; 'Magic' code that swaps nibbles in .A
 	asl
 	adc	#$80
@@ -25,7 +25,7 @@
 	adc	#$80
 	rol
 	; Nibbles are now swapped.
-	sta	$01	; Store in ZP, now compare with ZP addr $00
+	sta	TMP1	; Store in ZP, now compare with ZP addr $00
 			; to see that the nibbles are swapped
 
 	rts
