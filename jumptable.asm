@@ -10,35 +10,23 @@ CHROUT	= $FFD2
 
 
 main_func:!byte $ff
-	lda	#>ret1		; Push return address onto stack
-	pha
-	lda	#<ret1
-	pha
-	ldx	#0		; Push function address to stack
-	inx			; Remember CPU is little-endian
-	lda	Jump_table,x
-	pha
-	dex
-	lda	Jump_table,x
-	pha
-ret1:	rts			; Jump to function
+	lda	#>@ret1-1	; Push return address onto stack
+	pha			; Otherwise the function that is called
+	lda	#<@ret1-1	; via the jumptable will not be able to
+	pha			; use rts to return.
 
-	lda	#>ret2
-	pha
-	lda	#<ret2
-	pha
-	ldx	#2
+	ldx	#2		; Load index into jump table
 	inx
-	lda	Jump_table,x
-	pha
+	lda	Jump_table,x	; Push function address to stack
+	pha			; remembering that cpu is little-endian
 	dex
 	lda	Jump_table,x
 	pha
-ret2:	rts
+	rts			; Jump to function
 
-	lda	#>ret3
+@ret1:	lda	#>@ret2-1
 	pha
-	lda	#<ret3
+	lda	#<@ret2-1
 	pha
 	ldx	#4
 	inx
@@ -47,11 +35,24 @@ ret2:	rts
 	dex
 	lda	Jump_table,x
 	pha
-ret3:	rts
+	rts
 
-	lda	#>ret4
+@ret2:	lda	#>@ret3-1
 	pha
-	lda	#<ret4
+	lda	#<@ret3-1
+	pha
+	ldx	#0
+	inx
+	lda	Jump_table,x
+	pha
+	dex
+	lda	Jump_table,x
+	pha
+	rts
+
+@ret3:	lda	#>@ret4-1
+	pha
+	lda	#<@ret4-1
 	pha
 	ldx	#6
 	inx
@@ -60,9 +61,9 @@ ret3:	rts
 	dex
 	lda	Jump_table,x
 	pha
-ret4:	rts
-
 	rts
+
+@ret4:	rts
 
 ; Write 1 and a new line on screen
 func1:
