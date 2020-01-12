@@ -2,15 +2,15 @@
 Holding place for different Commander X16 assembler code tests
 ****
 * [bcdtopet.asm](bcdtopet.asm) - Show how a BCD nuber can be converted to PETSCII
-* char-replace.asm - Show how characters can be replaced in the font currently loaded into VERA memory
-* cx16.inc - Include file with Commander X16 specific information and macros
-* farbranch.inc - Include file to help with far branches
-* helloworld.asm - A very simple Hello World! example for the CX16
-* int-steal.asm - Show the effects of 'stealing' the IRQ vector.
-* jumptable.asm - Example of creating a jump table
-* jumptable-rts.asm - Example of creating a jump table with imitated jsr
-* kernal-ver.asm - Example of reading the KERNAL version
-* reset.asm - Doing a soft-reset from assembler
-* rts-jumptable.asm - Show how to use rts with a jumptable
-* swapnib.asm - Nifty code that can swap nibbles in a byte
-* veratext.asm - Program to print all VERA characters
+* [char-replace.asm](char-replace.asm) - Show how characters can be replaced in the font currently loaded into VERA memory
+* [cx16.inc](cx16.inc) - Include file with Commander X16 specific information and macros
+* [farbranch.inc](farbranch.inc) - Include file to help with far branches
+* [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16
+* [int-steal.asm](int-steal.asm) - Show the effects of 'stealing' the IRQ vector.
+* [jumptable.asm](jumptable.asm) - Example of creating a jump table
+* [jumptable-rts.asm](jumptable-rts.asm) - Example of creating a jump table with imitated jsr
+* [kernal-ver.asm](kernal-ver.asm) - Example of reading the KERNAL version
+* [reset.asm](reset.asm) - Doing a soft-reset from assembler
+* [rts-jumptable.asm](rts-jumptable.asm) - Show how to use rts with a jumptable
+* [swapnib.asm](swapnib.asm) - Nifty code that can swap nibbles in a byte
+* [veratext.asm](veratext.asm) - Program to print all VERA characters
