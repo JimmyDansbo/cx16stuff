@@ -1,11 +1,11 @@
 # CX16stuff
 Holding place for different Commander X16 assembler code tests
 ****
-* [bcdtopet.asm](bcdtopet.asm) - Show how a BCD nuber can be converted to PETSCII
+* [bcdtopet.asm](bcdtopet.asm) - Show how a BCD number can be converted to PETSCII
 * [char-replace.asm](char-replace.asm) - Show how characters can be replaced in the font currently loaded into VERA memory
 * [cx16.inc](cx16.inc) - Include file with Commander X16 specific information and macros
 * [farbranch.inc](farbranch.inc) - Include file to help with far branches
-* [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16
+* [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16 (and C64)
 * [int-steal.asm](int-steal.asm) - Show the effects of 'stealing' the IRQ vector.
 * [jumptable.asm](jumptable.asm) - Example of creating a jump table
 * [jumptable-rts.asm](jumptable-rts.asm) - Example of creating a jump table with imitated jsr
