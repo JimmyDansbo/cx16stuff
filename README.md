@@ -3,6 +3,7 @@ Holding place for different Commander X16 assembler code tests
 ****
 * [bcdtopet.asm](bcdtopet.asm) - Show how a BCD number can be converted to PETSCII
 * [char-replace.asm](char-replace.asm) - Show how characters can be replaced in the font currently loaded into VERA memory
+* [colchange.asm](colchange.asm) - Function to replace functinality of setting color in COLPORT
 * [cx16.inc](cx16.inc) - Include file with Commander X16 specific information and macros
 * [farbranch.inc](farbranch.inc) - Include file to help with far branches
 * [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16 (and C64)
@@ -13,4 +14,5 @@ Holding place for different Commander X16 assembler code tests
 * [reset.asm](reset.asm) - Doing a soft-reset from assembler
 * [rts-jumptable.asm](rts-jumptable.asm) - Show how to use rts with a jumptable
 * [swapnib.asm](swapnib.asm) - Nifty code that can swap nibbles in a byte
+* [vera.inc](vera.inc) - Include file with VERA specific information and macros
 * [veratext.asm](veratext.asm) - Program to print all VERA characters
