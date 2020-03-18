@@ -44,6 +44,24 @@ VERA_AUDIO_DATA		= VERA_AUDIO+2
 VERA_SPI_DATA		= VERA_AUDIO+3
 VERA_SPI_CTRL		= VERA_AUDIO+4
 
+; ******************** Addresses ********************
+VERA_PSG_REGISTERS	= $1F9C0
+VERA_PALETTE		= $1FA00
+VERA_SPRITE_ATTRIBS	= $1FC00
+
+; ******************** Offsets ********************
+VERA_PAL_GREEN_BLUE	= 0
+VERA_PAL_RED		= 1
+
+VERA_SPRITE_ADDR_LOW	= 0
+VERA_SPRITE_ADDR_HIGH	= 1
+VERA_SPRITE_X_LOW	= 2
+VERA_SPRITE_X_HIGH	= 3
+VERA_SPRITE_Y_LOW	= 4
+VERA_SPRITE_Y_HIGH	= 5
+VERA_SPRITE_CONFIG	= 6
+VERA_SPRITE_SIZE	= 7
+
 ; ******************** Macros ********************
 
 ; **************************************************************************
@@ -53,17 +71,16 @@ VERA_SPI_CTRL		= VERA_AUDIO+4
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr {
-	lda	#^.addr
-	bne	+
 	lda	VERA_ADDR_HIGH
-	and	#%11111110
-	bra	++
-+	lda	VERA_ADDR_HIGH
-	ora	#%00000001
-++	sta	VERA_ADDR_HIGH
-	lda	#>.addr
+	!if ^.addr = 0 {
+		and	#%11111110	; Clear bit 0 of VERA_ADDR_HIGH
+	} else {
+		ora	#%00000001	; Set bit 0 of VERA_ADDR_HIGH
+	}
+	sta	VERA_ADDR_HIGH
+	lda	#>.addr			; Set bits 8-15 of VERA_ADDR
 	sta	VERA_ADDR_MID
-	lda	#<.addr
+	lda	#<.addr			; Set bits 0-y of VERA_ADDR
 	sta	VERA_ADDR_LOW
 }
 
@@ -76,8 +93,8 @@ VERA_SPI_CTRL		= VERA_AUDIO+4
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr, .stride {
 	lda	VERA_ADDR_HIGH
-	and	#$0F
-	ora	#.stride<<4
+	and	#$0F			; Remove high nibble of VERA_ADDR HIGH
+	ora	#.stride<<4		; Set the new stride in high niblle
 	sta	VERA_ADDR_HIGH
 	+VERA_SET_ADDR .addr
 }
@@ -91,13 +108,84 @@ VERA_SPI_CTRL		= VERA_AUDIO+4
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr, .stride, .decr {
-	lda	#.decr
-	bne	+
 	lda	VERA_ADDR_HIGH
-	and	#%11110111
-	bra	++
-+	lda	VERA_ADDR_HIGH
-	ora	#%00001000
-++	sta	VERA_ADDR_HIGH
+	!if .decr = 0 {
+		and	#%11110111	; Clear bit 3 of VERA_ADDR_HIGH
+	} else {
+		ora	#%00001000	; Set bit 3 of VERA_ADDR_HIGH
+	}
+	sta	VERA_ADDR_HIGH
 	+VERA_SET_ADDR .addr, .stride
+}
+
+; **************************************************************************
+; Set the VERA DCSEL bit
+; **************************************************************************
+; INPUT:	.sel = Value DCSEL bit should be set to
+; USES:		A register
+; **************************************************************************
+!macro VERA_DCSEL .sel {
+	lda	VERA_CTRL
+	!if .sel = 0 {
+		and	#%11111101	; Clear DCSEL bit
+	} else {
+		ora	#%00000010	; Set DCSEL bit
+	}
+	sta	VERA_CTRL
+}
+
+; **************************************************************************
+; Set the VERA ADDRSEL bit
+; **************************************************************************
+; INPUT:	.sel = Value ADDRSEL bit should be set to
+; USES:		A register
+; **************************************************************************
+!macro VERA_ADDRSEL .sel {
+	lda	VERA_CTRL
+	!if .sel = 0 {
+		and	#%11111110	; Clear ADDRSEL bit
+	} else {
+		ora	#%00000001	; Set ADDRSEL bit
+	}
+	sta	VERA_CTRL
+}
+
+; **************************************************************************
+; Reset the VERA
+; **************************************************************************
+; USES:		A register
+; **************************************************************************
+!macro VERA_RESET {
+	lda	#%10000000		; Set the RESET bit in CTRL register
+	sta	VERA_CTRL
+}
+
+!macro VERA_SET_SPRITES .ena {
+	lda	VERA_DC_VIDEO
+	!if .ena = 0 {
+		and	#%10111111
+	} else {
+		ora	#%01000000
+	}
+	sta	VERA_DC_VIDEO
+}
+
+!macro VERA_SET_L0 .ena {
+	lda	VERA_DC_VIDEO
+	!if .ena = 0 {
+		and	#%11101111
+	} else {
+		ora	#%00010000
+	}
+	sta	VERA_DC_VIDEO
+}
+
+!macro VERA_SET_L1 .ena {
+	lda	VERA_DC_VIDEO
+	!if .ena = 0 {
+		and	#%11011111
+	} else {
+		ora	#%00100000
+	}
+	sta	VERA_DC_VIDEO
 }
