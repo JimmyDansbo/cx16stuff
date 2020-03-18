@@ -15,4 +15,5 @@ Holding place for different Commander X16 assembler code tests
 * [rts-jumptable.asm](rts-jumptable.asm) - Show how to use rts with a jumptable
 * [swapnib.asm](swapnib.asm) - Nifty code that can swap nibbles in a byte
 * [vera.inc](vera.inc) - Include file with VERA specific information and macros
+* [vera0.9.inc](vera0.9.inc) - Include file with VERA 0.9 specific information and macros
 * [veratext.asm](veratext.asm) - Program to print all VERA characters
