@@ -44,6 +44,15 @@ VERA_AUDIO_DATA		= VERA_AUDIO+2
 VERA_SPI_DATA		= VERA_AUDIO+3
 VERA_SPI_CTRL		= VERA_AUDIO+4
 
+; ******************** Macro Definitions ********************
+; !macro VERA_SET_ADDR .addr, [.stride], [.decr]
+; !macro VERA_DCSEL .sel
+; !macro VERA_ADDRSEL .sel
+; !macro VERA_RESET
+; !macro VERA_SET_SPRITES .ena
+; !macro VERA_SET_L0 .ena
+; !macro VERA_SET_L1 .ena
+
 ; ******************** Addresses ********************
 VERA_PSG_REGISTERS	= $1F9C0
 VERA_PALETTE		= $1FA00
@@ -61,6 +70,52 @@ VERA_SPRITE_Y_LOW	= 4
 VERA_SPRITE_Y_HIGH	= 5
 VERA_SPRITE_CONFIG	= 6
 VERA_SPRITE_SIZE	= 7
+
+VERA_PSG_FREQ_LOW	= 0
+VERA_PSG_FREQ_HIGH	= 1
+VERA_PSG_VOLUME		= 2
+VERA_PSG_PULSE_WIDTH	= 3
+
+; ******************** Constants ********************
+INC0			= 0
+INC1			= 1
+INC2			= 2
+INC4			= 3
+INC8			= 4
+INC16			= 5
+INC32			= 6
+INC64			= 7
+INC128			= 8
+INC256			= 9
+INC512			= 10
+INC40			= 11
+INC80			= 12
+INC160			= 13
+INC320			= 14
+INC640			= 15
+
+DISABLED		= 0
+VGA			= 1
+COMPOSITE		= 2
+RGB			= 3
+
+TILES32			= 0
+TILES64			= 1
+TILES128		= 2
+TILES256		= 3
+
+PIX8			= 0
+PIX16			= 1
+PIX32			= 2
+PIX64			= 4
+
+BPP1			= 0
+BPP2			= 1
+BPP4			= 2
+BPP8			= 3
+
+SPRITE_4BPP		= 0
+SPRITE_8BPP		= 1
 
 ; ******************** Macros ********************
 
@@ -160,32 +215,50 @@ VERA_SPRITE_SIZE	= 7
 	sta	VERA_CTRL
 }
 
+; **************************************************************************
+; Set Sprites Enable bit
+; **************************************************************************
+; INPUT:	.ena - 0=Sprites Disabled, 1=Sprites Enabled
+; USES:		A register
+; **************************************************************************
 !macro VERA_SET_SPRITES .ena {
 	lda	VERA_DC_VIDEO
 	!if .ena = 0 {
-		and	#%10111111
+		and	#%10111111	; Clear Sprites Enabled bit
 	} else {
-		ora	#%01000000
+		ora	#%01000000	; Set Sprites Enabled bit
 	}
 	sta	VERA_DC_VIDEO
 }
 
+; **************************************************************************
+; Set Layer0 Enable bit
+; **************************************************************************
+; INPUT:	.ena - 0=Layer0 Disabled, 1=Layer0 Enabled
+; USES:		A register
+; **************************************************************************
 !macro VERA_SET_L0 .ena {
 	lda	VERA_DC_VIDEO
 	!if .ena = 0 {
-		and	#%11101111
+		and	#%11101111	; Clear Layer0 Enabled bit
 	} else {
-		ora	#%00010000
+		ora	#%00010000	; Set Layer0 Enabled bit
 	}
 	sta	VERA_DC_VIDEO
 }
 
+; **************************************************************************
+; Set Layer1 Enable bit
+; **************************************************************************
+; INPUT:	.ena - 0=Layer1 Disabled, 1=Layer1 Enabled
+; USES:		A register
+; **************************************************************************
 !macro VERA_SET_L1 .ena {
 	lda	VERA_DC_VIDEO
 	!if .ena = 0 {
-		and	#%11011111
+		and	#%11011111	; Clear Layer1 Enabled bit
 	} else {
-		ora	#%00100000
+		ora	#%00100000	; Set Layer1 Enabled bit
 	}
 	sta	VERA_DC_VIDEO
 }
