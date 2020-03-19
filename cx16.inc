@@ -125,12 +125,45 @@ r15		= $20
 r15l		= r15
 r15h		= r15+1
 
+; *****************************************************************************
+; Save the address of the original interrupt handler
+; *****************************************************************************
+; USES:		A
+; OUTPUTS:	Address of old handler will be passed back in .old_handler
+; *****************************************************************************
+!macro SAVE_INT_VECTOR .old_handler {
+	lda	IRQVECTOR
+	sta	.old_handler
+	lda	IRQVECTOR+1
+	sta	.old_handler+1
+}
+
+; *****************************************************************************
+; Install new interrupt handler
+; *****************************************************************************
+; INPUTS:	.handler = address of new interrupt handler
+; USES:		A
+; *****************************************************************************
+!macro INSTALL_INT_HANDLER .handler {
+	sei			; Disable interrupts
+	lda	#1		; Tell VERA that we want interrupts
+	sta	VERA_IEN	; on each VSYNC
+	lda	#<.handler	; Write address of local interrupt
+	sta	IRQVECTOR	; handler to the interrupt
+	lda	#>.handler	; vector address ($0314)
+	sta	IRQVECTOR+1
+	cli			; Enable interrupts
+}
+
+;******************************************************************************
+; Code to enable program to be startet with the RUN command
+;******************************************************************************
 !macro SYS_LINE {
-	!word	$080C		; Pointer to next BASIC line
-	!word	$000A		; Line number $000A = 10
-	!byte	$9E		; SYS BASIC token
-	!pet	" $810",0	; Address where ASM starts
-	!word	$0000		; EOF BASIC program
+	!word	$080C			; Pointer to next BASIC line
+	!word	$000A			; Line number $000A = 10
+	!byte	$9E			; SYS BASIC token
+	!pet	" $810",0		; Address where ASM starts
+	!word	$0000			; EOF BASIC program
 }
 
 ;******************************************************************************
@@ -141,19 +174,19 @@ r15h		= r15+1
 ;		.C cleared if pre-release version
 ;******************************************************************************
 !macro GET_KERNAL_VER {
-	lda	VIA1PB		; Save current ROM bank
-	sta	TMP0		; In TMP0
-	and	#%11111000	; Set ROM bank to 0, only 3 lowest bits
-	sta	VIA1PB		; are used to set ROM bank
-	lda	KERNALVER	; Read KERNAL version
-	sta	TMP1		; SAve it in TMP1
-	lda	TMP0		; Restore ROM bank
+	lda	VIA1PB			; Save current ROM bank
+	sta	TMP0			; In TMP0
+	and	#KERNAL_BANK|#$F8	; Set ROM bank to 0, only 3 lowest bits
+	sta	VIA1PB			; are used to set ROM bank
+	lda	KERNALVER		; Read KERNAL version
+	sta	TMP1			; SAve it in TMP1
+	lda	TMP0			; Restore ROM bank
 	sta	VIA1PB
-	lda	TMP1		; Get KERNAL version into .A
+	lda	TMP1			; Get KERNAL version into .A
 	sec
-	bpl	.done		; If positive, we are done
-	eor	#$FF		; Invert and add 1 to convert the 2's
-	clc			; compliment number to the KERNAL version
+	bpl	.done			; If positive, we are done
+	eor	#$FF			; Invert and add 1 to convert the 2's
+	clc				; compliment number to the KERNAL version
 	adc	#1
 	clc
 .done:
