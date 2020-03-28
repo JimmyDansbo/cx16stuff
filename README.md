@@ -11,6 +11,7 @@ Holding place for different Commander X16 assembler code tests
 * [jumptable.asm](jumptable.asm) - Example of creating a jump table
 * [jumptable-rts.asm](jumptable-rts.asm) - Example of creating a jump table with imitated jsr
 * [kernal-ver.asm](kernal-ver.asm) - Example of reading the KERNAL version
+* [psgnotes.inc](psgnotes.inc) - Include file with note values for CX16 PSG
 * [reset.asm](reset.asm) - Doing a soft-reset from assembler
 * [rts-jumptable.asm](rts-jumptable.asm) - Show how to use rts with a jumptable
 * [swapnib.asm](swapnib.asm) - Nifty code that can swap nibbles in a byte
