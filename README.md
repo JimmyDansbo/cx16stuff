@@ -18,3 +18,4 @@ Holding place for different Commander X16 assembler code tests
 * [vera.inc](vera.inc) - Include file with VERA specific information and macros
 * [vera0.9.inc](vera0.9.inc) - Include file with VERA 0.9 specific information and macros
 * [veratext.asm](veratext.asm) - Program to print all VERA characters
+* [wait_joy.asm](wait_joy.asm) - Program to show handling of emulator strangeness with joystick_get function.
