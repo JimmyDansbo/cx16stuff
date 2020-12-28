@@ -8,6 +8,7 @@ Holding place for different Commander X16 assembler code tests
 * [farbranch.inc](farbranch.inc) - Include file to help with far branches
 * [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16 (and C64)
 * [int-steal.asm](int-steal.asm) - Show the effects of 'stealing' the IRQ vector.
+* [irclock.asm](irclock.asm) - Show a clock in top right corner of 80x60 textmode
 * [jumptable.asm](jumptable.asm) - Example of creating a jump table
 * [jumptable-rts.asm](jumptable-rts.asm) - Example of creating a jump table with imitated jsr
 * [kernal-ver.asm](kernal-ver.asm) - Example of reading the KERNAL version
