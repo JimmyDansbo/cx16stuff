@@ -151,7 +151,7 @@ Show_clock:
 	sta	Jiffie_cnt
 
 	sed			; Enter BCD mode
-	lda	Second
+	lda	Second		; Increment Second
 	clc
 	adc	#1
 	cmp	#$60
@@ -162,7 +162,7 @@ Show_clock:
 @inc_min:
 	stz	Second		; Store 0 in Second to make it wrap around
 	sed
-	lda	Minute
+	lda	Minute		; Increment Minute
 	clc
 	adc	#1
 	cmp	#$60
@@ -173,7 +173,7 @@ Show_clock:
 @inc_hour:
 	stz	Minute		; Store 0 in Minute to make it wrap around
 	sed
-	lda	Hour
+	lda	Hour		; Increment Hour
 	clc
 	adc	#1
 	cmp	#$24
