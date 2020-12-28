@@ -160,7 +160,7 @@ Show_clock:
 	sta	Second
 	bra	@continue
 @inc_min:
-	stz	Second
+	stz	Second		; Store 0 in Second to make it wrap around
 	sed
 	lda	Minute
 	clc
@@ -171,7 +171,7 @@ Show_clock:
 	sta	Minute
 	bra	@continue
 @inc_hour:
-	stz	Minute
+	stz	Minute		; Store 0 in Minute to make it wrap around
 	sed
 	lda	Hour
 	clc
@@ -182,7 +182,7 @@ Show_clock:
 	sta	Hour
 	bra	@continue
 @rst_hour:
-	stz	Hour
+	stz	Hour		; Store 0 in Hour to make it wrap around
 @continue:
 	jmp	(Old_irq_handler)
 End_show_clock:
