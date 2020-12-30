@@ -175,19 +175,16 @@ r15h		= r15+1
 ;******************************************************************************
 !macro GET_KERNAL_VER {
 	lda	VIA1PB			; Save current ROM bank
-	sta	TMP0			; In TMP0
+	tay				; in .Y
 	and	#KERNAL_BANK|#$F8	; Set ROM bank to 0, only 3 lowest bits
 	sta	VIA1PB			; are used to set ROM bank
 	lda	KERNALVER		; Read KERNAL version
-	sta	TMP1			; SAve it in TMP1
-	lda	TMP0			; Restore ROM bank
-	sta	VIA1PB
-	lda	TMP1			; Get KERNAL version into .A
-	sec
+	sty	VIA1PB			; Restore ROM bank
+	sec				; Set carry to show it is release-version
 	bpl	.done			; If positive, we are done
 	eor	#$FF			; Invert and add 1 to convert the 2's
 	clc				; compliment number to the KERNAL version
 	adc	#1
-	clc
+	clc				; Clear carry to show it is pre-release
 .done:
 }
