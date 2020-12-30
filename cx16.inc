@@ -9,6 +9,9 @@ VIA2		= $9F70
 VIA2PA		= VIA2+1
 VIA2PB		= VIA2+0
 
+RAM_BANK	= $A000
+ROM_BANK	= $C000
+
 ; Emulator
 GIFCTRL		= $9FB5
 
@@ -29,15 +32,15 @@ BASIC_BANK	= 4
 MONITOR_BANK	= 5
 
 ; ZeroPage variables/pointers
-TMP0		= $00
-TMP1		= $01
-TMP2		= $22
-TMP3		= $23
-TMP4		= $24
-TMP5		= $26
-TMP7		= $27
-TMP8		= $28
-TMP9		= $29
+TMP0		= $22
+TMP1		= $23
+TMP2		= $24
+TMP3		= $25
+TMP4		= $26
+TMP5		= $27
+TMP7		= $28
+TMP8		= $29
+TMP9		= $2A
 
 ; PETSCII color codes
 PET_BLACK	= $90
@@ -74,6 +77,28 @@ MIDGRAY		= 12
 LIGHTGREEEN	= 13
 LIGHTBLUE	= 14
 LIGHTGRAY	= 15
+
+; Joystick button values
+NES_A		= $80
+NES_B		= $40
+NES_SEL		= $20
+NES_STA		= $10
+NES_UP		= $08
+NES_DN		= $04
+NES_LT		= $20
+NES_RT		= $10
+SNES_B		= $80
+SNES_Y		= $40
+SNES_SEL	= $20
+SNES_STA	= $10
+SNES_UP		= $08
+SNES_DN		= $04
+SNES_LT		= $02
+SNES_RT		= $01
+SNES_A		= $80
+SNES_X		= $40
+SNES_L		= $20
+SNES_R		= $10
 
 ; "ABI" registers in ZeroPage
 r0		= $02
@@ -125,6 +150,66 @@ r15		= $20
 r15l		= r15
 r15h		= r15+1
 
+; Commander X16 API
+;clock
+Clock_set_data_time	= $FF4D
+Clock_get_date_time	= $FF50
+;mouse
+Mouse_config		= $FF68
+Mouse_scan		= $FF71
+Mouse_get		= $FF6B
+;joystick
+Joystick_scan		= $FF53
+Joystick_get		= $FF56
+;sprites
+Sprite_set_image	= $FEF0
+Sprite_set_position	= $FEF3
+;framebuffer
+FB_init			= $FEF6
+FB_get_info		= $FEF9
+FB_set_palette		= $FEFC
+FB_cursor_position	= $FEFF
+FB_cursor_next_line	= $FF02
+FB_get_pixel		= $FF05
+FB_get_pixels		= $FF08
+FB_set_pixel		= $FF0B
+FB_set_pixels		= $FF0E
+FB_set_8_pixels		= $FF11
+FB_set_8_pixels_opaque	= $FF14
+FB_fill_pixels		= $FF17
+FB_filter_pixels	= $FF1A
+FB_move_pixels		= $FF1D
+;graphics
+Graph_init		= $FF20
+Graph_clear		= $FF23
+Graph_set_window	= $FF26
+Graph_set_colors	= $FF29
+Graph_draw_line		= $FF2C
+Graph_draw_rect		= $FF2F
+Graph_move_rect		= $FF32
+Graph_draw_oval		= $FF35
+Graph_draw_image	= $FF38
+Graph_set_font		= $FF3B
+Graph_get_char_size	= $FF3E
+Graph_put_char		= $FF41
+;console
+Console_init		= $FEDB
+Console_put_char	= $FEDE
+Console_put_image	= $FED8
+Console_get_char	= $FEE1
+Console_set_paging_message	= $FED5
+;other
+Memory_fill		= $FEE4
+Memory_copy		= $FEE7
+Memory_crc		= $FEEA
+Memory_decompress	= $FEED
+Entropy_get		= $FECF
+Monitor			= $FF44
+Enter_basic		= $FF47
+Screen_set_mode		= $FF5F
+Screen_set_charset	= $FF62
+JSRFAR			= $FF6E
+
 ; *****************************************************************************
 ; Save the address of the original interrupt handler
 ; *****************************************************************************
@@ -159,11 +244,13 @@ r15h		= r15+1
 ; Code to enable program to be startet with the RUN command
 ;******************************************************************************
 !macro SYS_LINE {
+*=$801
 	!word	$080C			; Pointer to next BASIC line
 	!word	$000A			; Line number $000A = 10
 	!byte	$9E			; SYS BASIC token
 	!pet	" $810",0		; Address where ASM starts
 	!word	$0000			; EOF BASIC program
+*=$810
 }
 
 ;******************************************************************************
