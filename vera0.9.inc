@@ -126,17 +126,17 @@ SPRITE_8BPP		= 1
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr {
-	lda	VERA_ADDR_HIGH
+	lda	VERA_ADDR_H
 	!if ^.addr = 0 {
-		and	#%11111110	; Clear bit 0 of VERA_ADDR_HIGH
+		and	#%11111110	; Clear bit 0 of VERA_ADDR_H
 	} else {
-		ora	#%00000001	; Set bit 0 of VERA_ADDR_HIGH
+		ora	#%00000001	; Set bit 0 of VERA_ADDR_H
 	}
-	sta	VERA_ADDR_HIGH
+	sta	VERA_ADDR_H
 	lda	#>.addr			; Set bits 8-15 of VERA_ADDR
-	sta	VERA_ADDR_MID
-	lda	#<.addr			; Set bits 0-y of VERA_ADDR
-	sta	VERA_ADDR_LOW
+	sta	VERA_ADDR_M
+	lda	#<.addr			; Set bits 0-7 of VERA_ADDR
+	sta	VERA_ADDR_L
 }
 
 ; **************************************************************************
@@ -147,10 +147,10 @@ SPRITE_8BPP		= 1
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr, .stride {
-	lda	VERA_ADDR_HIGH
-	and	#$0F			; Remove high nibble of VERA_ADDR HIGH
+	lda	VERA_ADDR_H
+	and	#$0F			; Remove high nibble of VERA_ADDR_H
 	ora	#.stride<<4		; Set the new stride in high niblle
-	sta	VERA_ADDR_HIGH
+	sta	VERA_ADDR_H
 	+VERA_SET_ADDR .addr
 }
 
@@ -163,13 +163,13 @@ SPRITE_8BPP		= 1
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr, .stride, .decr {
-	lda	VERA_ADDR_HIGH
+	lda	VERA_ADDR_H
 	!if .decr = 0 {
-		and	#%11110111	; Clear bit 3 of VERA_ADDR_HIGH
+		and	#%11110111	; Clear bit 3 of VERA_ADDR_H
 	} else {
-		ora	#%00001000	; Set bit 3 of VERA_ADDR_HIGH
+		ora	#%00001000	; Set bit 3 of VERA_ADDR_H
 	}
-	sta	VERA_ADDR_HIGH
+	sta	VERA_ADDR_H
 	+VERA_SET_ADDR .addr, .stride
 }
 
