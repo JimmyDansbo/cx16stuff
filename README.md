@@ -1,6 +1,7 @@
 # CX16stuff
 Holding place for different Commander X16 assembler code tests
 ****
+* [ari16.inc](ari16.inc) - Include file with 16 bit aritmetic functions
 * [bcdtopet.asm](bcdtopet.asm) - Show how a BCD number can be converted to PETSCII
 * [char-replace.asm](char-replace.asm) - Show how characters can be replaced in the font currently loaded into VERA memory
 * [colchange.asm](colchange.asm) - Function to replace functinality of setting color in COLPORT
