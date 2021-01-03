@@ -46,6 +46,7 @@ VERA_SPI_CTRL		= VERA_AUDIO+4
 
 ; ******************** Macro Definitions ********************
 ; !macro VERA_SET_ADDR .addr, [.stride], [.decr]
+; !macro VERA_GOXY .xc, .yc, .abs
 ; !macro VERA_DCSEL .sel
 ; !macro VERA_ADDRSEL .sel
 ; !macro VERA_RESET
@@ -179,7 +180,7 @@ SPRITE_8BPP		= 1
 ; **************************************************************************
 ; INPUT:	.xc = X coordinate
 ;		.yc = Y coordinate
-;		.abs = absolute or immediate arguments 0=absolute,1=immediate
+;		.abs = absolute or immediate arguments 1=absolute,0=immediate
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_GOXY .xc, .xy, .abs {
