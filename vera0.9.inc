@@ -174,6 +174,31 @@ SPRITE_8BPP		= 1
 }
 
 ; **************************************************************************
+; Set VERA address to point at a specific X and Y coordinate in 80x60 or
+; 40x30 text mode.
+; **************************************************************************
+; INPUT:	.xc = X coordinate
+;		.yc = Y coordinate
+;		.abs = absolute or immediate arguments 0=absolute,1=immediate
+; USES:		A register
+; **************************************************************************
+!macro VERA_GOXY .xc, .xy, .abs {
+	!if .abs = 0 {
+		lda	#.yc
+		sta	VERA_ADDR_M
+		lda	#.xc
+		asl
+		sta	VERA_ADDR_L
+	} else {
+		lda	.yc
+		sta	VERA_ADDR_M
+		lda	.xc
+		asl
+		sta	VERA_ADDR_L
+	}
+}
+
+; **************************************************************************
 ; Set the VERA DCSEL bit
 ; **************************************************************************
 ; INPUT:	.sel = Value DCSEL bit should be set to
