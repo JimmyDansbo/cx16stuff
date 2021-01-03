@@ -38,9 +38,10 @@ TMP2		= $24
 TMP3		= $25
 TMP4		= $26
 TMP5		= $27
-TMP7		= $28
-TMP8		= $29
-TMP9		= $2A
+TMP6		= $28
+TMP7		= $29
+TMP8		= $2A
+TMP9		= $2B
 
 ; PETSCII color codes
 PET_BLACK	= $90
