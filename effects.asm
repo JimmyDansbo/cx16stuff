@@ -2,7 +2,7 @@
 *=$400
 
 ; *****************************************************************************
-; IRQ driven effects library copied from:
+; IRQ driven sound-effects library copied from:
 ; https://github.com/Dooshco/X16/blob/master/Effects.asm
 ; converted to acme assembly from ca65 assembly
 ; *****************************************************************************
