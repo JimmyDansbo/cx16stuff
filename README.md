@@ -6,6 +6,7 @@ Holding place for different Commander X16 assembler code tests
 * [char-replace.asm](char-replace.asm) - Show how characters can be replaced in the font currently loaded into VERA memory
 * [colchange.asm](colchange.asm) - Function to replace functinality of setting color in COLPORT
 * [cx16.inc](cx16.inc) - Include file with Commander X16 specific information and macros
+* [effects.asm](effects.asm) - IRQ driven sound-effect library from github.com/Dooshco/X16
 * [farbranch.inc](farbranch.inc) - Include file to help with far branches
 * [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16 (and C64)
 * [int-steal.asm](int-steal.asm) - Show the effects of 'stealing' the IRQ vector.
