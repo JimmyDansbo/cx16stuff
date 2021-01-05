@@ -45,7 +45,7 @@ VERA_SPI_DATA		= VERA_AUDIO+3
 VERA_SPI_CTRL		= VERA_AUDIO+4
 
 ; ******************** Macro Definitions ********************
-; !macro VERA_SET_ADDR .addr, [.stride], [.decr]
+; !macro VERA_SET_ADDR .addr, [.stride]
 ; !macro VERA_GOXY .xc, .yc, .abs
 ; !macro VERA_DCSEL .sel
 ; !macro VERA_ADDRSEL .sel
@@ -141,37 +141,24 @@ SPRITE_8BPP		= 1
 }
 
 ; **************************************************************************
-; Set the VERA Address and stride do not touch DECR value
+; Set the VERA Address and stride. if stride is negative, the DECR bit will
+; be set, otherwise it is reset.
 ; **************************************************************************
-; INPUT:	.addr = 17 bit address to set 0xxxx or 1xxxx
-;		.stride = 4 bit inc/dec value
+; INPUT:	.addr = 17 bit address to set 0xxxx - 1xxxx
+;		.stride = 4 bit signed inc/dec value - negative value decrements
 ; USES:		A register
 ; **************************************************************************
 !macro VERA_SET_ADDR .addr, .stride {
-	lda	VERA_ADDR_H
-	and	#$0F			; Remove high nibble of VERA_ADDR_H
-	ora	#.stride<<4		; Set the new stride in high niblle
-	sta	VERA_ADDR_H
-	+VERA_SET_ADDR .addr
-}
-
-; **************************************************************************
-; Set the VERA Address, stride and DECR values
-; **************************************************************************
-; INPUT:	.addr = 17 bit address to set 0xxxx or 1xxxx
-;		.stride = 4 bit inc/dec value
-;		.decr = 1 bit flag (0=increment, 1=decrement)
-; USES:		A register
-; **************************************************************************
-!macro VERA_SET_ADDR .addr, .stride, .decr {
-	lda	VERA_ADDR_H
-	!if .decr = 0 {
-		and	#%11110111	; Clear bit 3 of VERA_ADDR_H
+	!if .stride < 0 {
+		lda	#((^.addr) | $08 | ((0-.stride)<<4))
 	} else {
-		ora	#%00001000	; Set bit 3 of VERA_ADDR_H
+		lda	#((^.addr) | (.stride)<<4)
 	}
 	sta	VERA_ADDR_H
-	+VERA_SET_ADDR .addr, .stride
+	lda	#>.addr
+	sta	VERA_ADDR_M
+	lda	#<.addr
+	sta	VERA_ADDR_L
 }
 
 ; **************************************************************************
