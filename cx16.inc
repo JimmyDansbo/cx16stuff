@@ -32,16 +32,22 @@ BASIC_BANK	= 4
 MONITOR_BANK	= 5
 
 ; ZeroPage variables/pointers
-TMP0		= $22
-TMP1		= $23
-TMP2		= $24
-TMP3		= $25
-TMP4		= $26
-TMP5		= $27
-TMP6		= $28
-TMP7		= $29
-TMP8		= $2A
-TMP9		= $2B
+TMP0		= $30
+TMP1		= $31
+TMP2		= $32
+TMP3		= $33
+TMP4		= $34
+TMP5		= $35
+TMP6		= $36
+TMP7		= $37
+TMP8		= $38
+TMP9		= $39
+TMPa		= $3A
+TMPb		= $3B
+TMPc		= $3C
+TMPd		= $3D
+TMPe		= $3E
+TMPf		= $3F
 
 ; PETSCII color codes
 PET_BLACK	= $90
@@ -150,6 +156,31 @@ r14h		= r14+1
 r15		= $20
 r15l		= r15
 r15h		= r15+1
+
+; extra registers in ZeroPage - not used by CX16 kernal, but shown in debugger
+x16		= $22
+x16l		= x16
+x16h		= x16+1
+x17		= $24
+x17l		= x17
+x17h		= x17+1
+x18		= $26
+x18l		= x18
+x18h		= x18+1
+x19		= $28
+x19l		= x19
+x19h		= x19+1
+
+; extra registers in ZeroPage - not used by CX16 at all
+z20		= $2A
+z20l		= z20
+z20h		= z20+1
+z21		= $2C
+z21l		= z21
+z21h		= z21+1
+z22		= $2E
+z22l		= z22
+z22h		= z22+1
 
 ; Commodore 64 API
 ACPTR		= $FFA5
