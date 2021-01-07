@@ -9,6 +9,7 @@ Holding place for different Commander X16 assembler code tests
 * [effects.asm](effects.asm) - IRQ driven sound-effect library from github.com/Dooshco/X16
 * [farbranch.inc](farbranch.inc) - Include file to help with far branches
 * [helloworld.asm](helloworld.asm) - A very simple Hello World! example for the CX16 (and C64)
+* [hex2pet.asm](hex2pet.asm) - Examples of printing byte as hexadecimal string
 * [int-steal.asm](int-steal.asm) - Show the effects of 'stealing' the IRQ vector.
 * [irclock.asm](irclock.asm) - Show a clock in top right corner of 80x60 textmode
 * [jumptable.asm](jumptable.asm) - Example of creating a jump table

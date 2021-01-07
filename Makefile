@@ -4,6 +4,7 @@ all:
 	acme -f cbm -o colchange.prg colchange.asm
 	acme -f cbm -o effects.prg effects.asm
 	acme -f cbm -o helloworld.prg helloworld.asm
+	acme -f cbm -o hex2pet.prg hex2pet.asm
 	acme -f cbm -o intsteal.prg int-steal.asm
 	acme -f cbm -o irclock.prg irclock.asm
 	acme -f cbm -o jumptable.prg jumptable.asm
