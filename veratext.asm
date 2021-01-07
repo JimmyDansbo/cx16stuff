@@ -14,7 +14,7 @@ vera_isr	= $9F27
 main:
 
 	lda	#$10		; White background / Black text
-	sta	$0286
+	sta	$0376
 
 	lda	#147		; Clear screen
 	jsr	$FFD2		; With kernal API
