@@ -3,7 +3,7 @@
 +SYS_LINE
 
 Main:
-	; Use Wozniak insired function to print hex-string
+	; Use Wozniak inspired function to print hex-string
 	lda	#$7C
 	jsr	Hex_to_pet_calc
 	lda	#13

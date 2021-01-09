@@ -26,7 +26,7 @@ ARI16_INC=1
 }
 
 ;****************************************************************************
-; Rotate Left on a 16 bit value - 0 shifted into bit0
+; Arithmetic Shift Left on a 16 bit value - carry-bit shifted into bit0
 ;****************************************************************************
 ; INPUT:	.val - The value that should be shifted left
 ;****************************************************************************
@@ -36,7 +36,7 @@ ARI16_INC=1
 }
 
 ;****************************************************************************
-; Arithmetic Shift Left on a 16 bit value - carry-bit shifted into bit0
+; Rotate Left on a 16 bit value - 0 shifted into bit0
 ;****************************************************************************
 ; INPUT:	.val - The value that should be shifted left
 ;****************************************************************************
