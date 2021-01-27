@@ -85,6 +85,13 @@ LIGHTGREEEN	= 13
 LIGHTBLUE	= 14
 LIGHTGRAY	= 15
 
+; VERA screen modes
+SCR_MOD00	= $00	; 40x30 text
+SCR_MOD01	= $01	; 80x30 text (unsupported)
+SCR_MOD02	= $02	; 80x60 text
+SCR_MOD80	= $80	; 320x200@256c - 40x25 text
+SCR_MOD81	= $81	; 640x400@16c (unsupported)
+
 ; Joystick button values
 NES_A		= $80
 NES_B		= $40
@@ -182,7 +189,7 @@ z22		= $2E
 z22l		= z22
 z22h		= z22+1
 
-; Commodore 64 API
+; Commodore 64 API - see https://cx16.dk/c64-kernal-routines/
 ACPTR		= $FFA5
 IECIN		= $FFA5
 CHKIN		= $FFC6
