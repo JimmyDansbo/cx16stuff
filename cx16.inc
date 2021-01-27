@@ -67,6 +67,37 @@ PET_LIGHTGREEN	= $99
 PET_LIGHTBLUE	= $9A
 PET_LIGHTGRAY	= $9B
 
+; PETSCII control codes
+PET_SWAP_FGBG	= $01
+PET_STOP	= $03
+PET_UNDERLINE	= $04
+PET_BOLD	= $06
+PET_BELL	= $07
+PET_BACKSPACE	= $08
+PET_TAB		= $09
+PET_LINEFEED	= $0A
+PET_ITALICS	= $0B
+PET_OUTLINE	= $0C
+PET_RETURN	= $0D
+PET_CHR_LO_UP	= $0E
+PET_ISO_ON	= $0F
+PET_CSR_DOWN	= $11
+PET_REVERSE	= $12
+PET_HOME	= $13
+PET_DELETE	= $14
+PET_SHIFT_TAB	= $18
+PET_CSR_RIGHT	= $1D
+PET_RUN		= $83
+PET_HELP	= $84
+PET_SHIFT_RET	= $8D
+PET_UP_GFX_CHAR	= $8E
+PET_ISO_OFF	= $8F
+PET_CSR_UP	= $91
+PET_REVERSE_OFF	= $92
+PET_CLEAR	= $93
+PET_INSERT	= $94
+PET_CSR_LEFT	= $9D
+
 ; Color values
 BLACK		= 0
 WHITE		= 1
@@ -86,11 +117,12 @@ LIGHTBLUE	= 14
 LIGHTGRAY	= 15
 
 ; VERA screen modes
-SCR_MOD00	= $00	; 40x30 text
-SCR_MOD01	= $01	; 80x30 text (unsupported)
-SCR_MOD02	= $02	; 80x60 text
-SCR_MOD80	= $80	; 320x200@256c - 40x25 text
-SCR_MOD81	= $81	; 640x400@16c (unsupported)
+SCR_MOD_00	= $00	; 40x30 text
+SCR_MOD_01	= $01	; 80x30 text (unsupported)
+SCR_MOD_02	= $02	; 80x60 text
+SCR_MOD_80	= $80	; 320x200@256c - 40x25 text
+SCR_MOD_81	= $81	; 640x400@16c (unsupported)
+SCR_MOD_FF	= $FF	; Toggle between $00 and $02
 
 ; Joystick button values
 NES_A		= $80
