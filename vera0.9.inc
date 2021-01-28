@@ -46,7 +46,8 @@ VERA_SPI_CTRL		= VERA_AUDIO+4
 
 ; ******************** Macro Definitions ********************
 ; !macro VERA_SET_ADDR .addr, [.stride]
-; !macro VERA_GOXY .xc, .yc, .abs
+; !macro VERA_SET_STRIDE .stride
+; !macro VERA_GOXY .xc, .yc, [.abs]
 ; !macro VERA_DCSEL .sel
 ; !macro VERA_ADDRSEL .sel
 ; !macro VERA_RESET
@@ -162,15 +163,34 @@ SPRITE_8BPP		= 1
 }
 
 ; **************************************************************************
+; Set the stride, if it is negative, the DECR bit will be set
+; **************************************************************************
+; INPUT:	.stride = 4 bit signed inc/dec value - negative val decremsnts
+; USES:		A register
+; **************************************************************************
+!macro VERA_SET_STRIDE .stride {
+	lda	VERA_ADDR_H
+	!if .stride < 0 {
+		and	#$0F
+		ora	#($08 | ((0-.stride)<<4))
+	} else {
+		and	#$07
+		ora	#(.stride<<4)
+	}
+	sta	VERA_ADDR_H
+}
+
+; **************************************************************************
 ; Set VERA address to point at a specific X and Y coordinate in 80x60 or
 ; 40x30 text mode.
 ; **************************************************************************
 ; INPUT:	.xc = X coordinate
 ;		.yc = Y coordinate
-;		.abs = absolute or immediate arguments 1=absolute,0=immediate
+;		[.abs] = absolute or immediate arguments
+;			 1=absolute, 0 or omitted =immediate
 ; USES:		A register
 ; **************************************************************************
-!macro VERA_GOXY .xc, .xy, .abs {
+!macro VERA_GOXY .xc, .yc, .abs {
 	!if .abs = 0 {
 		lda	#.yc
 		sta	VERA_ADDR_M
@@ -184,6 +204,14 @@ SPRITE_8BPP		= 1
 		asl
 		sta	VERA_ADDR_L
 	}
+}
+
+!macro VERA_GOXY .xc, .yc  {
+	lda	#.yc
+	sta	VERA_ADDR_M
+	lda	#.xc
+	asl
+	sta	VERA_ADDR_L
 }
 
 ; **************************************************************************
