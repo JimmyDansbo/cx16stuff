@@ -205,13 +205,18 @@ SPRITE_8BPP		= 1
 		sta	VERA_ADDR_L
 	}
 }
-
 !macro VERA_GOXY .xc, .yc  {
 	lda	#.yc
 	sta	VERA_ADDR_M
-	lda	#.xc
-	asl
+	lda	#(.xc<<1)
 	sta	VERA_ADDR_L
+}
+!macro VERA_GOXY ~.xc, ~.yc {
+		lda	.yc
+		sta	VERA_ADDR_M
+		lda	.xc
+		asl
+		sta	VERA_ADDR_L
 }
 
 ; **************************************************************************
