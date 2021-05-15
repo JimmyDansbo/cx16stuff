@@ -1,32 +1,26 @@
-!to "chartest.prg",cbm
-*=$0801
+!cpu w65c02
 	!src	"cx16.inc"
+
 	+SYS_LINE
-*=$0810
 
-VERA_ADDR_LO	= $9F20
-VERA_ADDR_MID	= VERA_ADDR_LO+1
-VERA_ADDR_HI	= VERA_ADDR_LO+2
-VERA_DATA0	= VERA_ADDR_LO+3
-VERA_DATA1	= VERA_ADDR_LO+4
-VERA_CTRL	= VERA_ADDR_LO+5
-CHROUT		= $FFD2
-CHRIN		= $FFCF
+	!src	"vera0.9.inc"
 
-	lda	#(WHITE<<4)+BLACK; White background, black text
-	sta	COLORPORT
+	lda	#PET_WHITE	; White background, black text
+	jsr	CHROUT
+	lda	#PET_SWAP_FGBG
+	jsr	CHROUT
+	lda	#PET_BLACK
+	jsr	CHROUT
+
 	lda	#147		; Clear screen
 	jsr	CHROUT
 
-	lda	#0
-	sta	VERA_CTRL	; Use Data port 0
-
 	lda	#$10
-	sta	VERA_ADDR_HI	; Increment by 1, bank 0
+	sta	VERA_ADDR_H	; Increment by 1, bank 0
 	lda	#$FE		; Set address to
-	sta	VERA_ADDR_MID	; $F800+($dd*$8)=$FEE8
+	sta	VERA_ADDR_M	; $F800+($dd*$8)=$FEE8
 	lda	#$E8		; This places the custom chars
-	sta	VERA_ADDR_LO	; at the end of the font table
+	sta	VERA_ADDR_L	; at the end of the font table
 
 	lda	#<CHARS		; Save address of CHARS in ZP
 	sta	TMP0
@@ -214,14 +208,14 @@ CHRIN		= $FFCF
 ; Y = Y coordinate
 GotoXY:
 	; In text mode, Y coordinate is just stored in mid address
-	sty	VERA_ADDR_MID
+	sty	VERA_ADDR_M
 
 	; In text mode, X coordinate is stored in low address, but
 	; each character takes up 2 bytes. First one for the character
 	; second one for the colors (BG/FG)
 	txa			; Transfer X to A
 	asl			; Mutiply by 2
-	sta	VERA_ADDR_LO
+	sta	VERA_ADDR_L
 	rts
 
 ; A = Increment value
@@ -250,7 +244,7 @@ SetInc:
 	asl
 	asl
 	asl
-	sta	VERA_ADDR_HI
+	sta	VERA_ADDR_H
 	rts
 
 ; *******************************************************************
