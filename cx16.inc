@@ -130,12 +130,16 @@ LIGHTBLUE	= 14
 LIGHTGRAY	= 15
 
 ; VERA screen modes
-SCR_MOD_00	= $00	; 40x30 text
-SCR_MOD_01	= $01	; 80x30 text (unsupported)
-SCR_MOD_02	= $02	; 80x60 text
-SCR_MOD_80	= $80	; 320x200@256c - 40x25 text
-SCR_MOD_81	= $81	; 640x400@16c (unsupported)
-SCR_MOD_FF	= $FF	; Toggle between $00 and $02
+SCR_MOD_80x60	= $00
+SCR_MOD_80x30	= $01
+SCR_MOD_40x60	= $02
+SCR_MOD_40x30	= $03
+SCR_MOD_40x15	= $04
+SCR_MOD_20x30	= $05
+SCR_MOD_20x15	= $06
+SCR_GFX_320x200	= $80	; 320x200@256c - 40x25 text
+SCR_GFX_640x400 = $81	; 640x400@16c (unsupported)
+SCR_MOD_TOGGLE	= $FF	; Toggle between $00 and $03
 
 ; Joystick button values
 NES_A		= $80
@@ -385,12 +389,17 @@ JSRFAR			= $FF6E
 ;******************************************************************************
 !macro SYS_LINE {
 *=$801
-	!word	$080C			; Pointer to next BASIC line
+	!word	.next_line		; Pointer to next BASIC line
 	!word	$000A			; Line number $000A = 10
 	!byte	$9E			; SYS BASIC token
-	!pet	" $80e",0		; Address where ASM starts
-	!word	$0000			; EOF BASIC program
-*=$80E
+	!byte	48+(.entry/1000)%10	; Address where ASM starts in PETSCII
+	!byte	48+(.entry/100)%10
+	!byte	48+(.entry/10)%10
+	!byte	48+(.entry/1)%10
+	!byte	$00			; End of BASIC line
+.next_line:
+	!word	$0000			; End of BASIC program
+.entry:
 }
 
 ;******************************************************************************
