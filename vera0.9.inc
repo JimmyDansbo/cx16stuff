@@ -193,12 +193,16 @@ SPRITE_8BPP		= 1
 !macro VERA_GOXY .xc, .yc, .abs {
 	!if .abs = 0 {
 		lda	#.yc
+		clc
+		adc	#$B0
 		sta	VERA_ADDR_M
 		lda	#.xc
 		asl
 		sta	VERA_ADDR_L
 	} else {
 		lda	.yc
+		clc
+		adc	#$B0
 		sta	VERA_ADDR_M
 		lda	.xc
 		asl
@@ -207,12 +211,16 @@ SPRITE_8BPP		= 1
 }
 !macro VERA_GOXY .xc, .yc  {
 	lda	#.yc
+	clc
+	adc	#$B0
 	sta	VERA_ADDR_M
 	lda	#(.xc<<1)
 	sta	VERA_ADDR_L
 }
 !macro VERA_GOXY ~.xc, ~.yc {
 		lda	.yc
+		clc
+		adc	#$B0
 		sta	VERA_ADDR_M
 		lda	.xc
 		asl
