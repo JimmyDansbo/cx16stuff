@@ -18,6 +18,7 @@ Holding place for different Commander X16 assembler code tests
 * [psgnotes.inc](psgnotes.inc) - Include file with note values for CX16 PSG
 * [reset.asm](reset.asm) - Doing a soft-reset from assembler
 * [rts-jumptable.asm](rts-jumptable.asm) - Show how to use rts with a jumptable
+* [rtsjsr.inc](rtsjsr.inc) - Include file to help with conditional jsr/rts & jsr indirect
 * [swapnib.asm](swapnib.asm) - Nifty code that can swap nibbles in a byte
 * [vera.inc](vera.inc) - Include file with VERA specific information and macros
 * [vera0.9.inc](vera0.9.inc) - Include file with VERA 0.9 specific information and macros
