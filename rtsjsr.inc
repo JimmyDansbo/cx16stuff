@@ -8,7 +8,7 @@ RTSJSR_INC=1
 ; USES:		Register A 
 ;****************************************************************************
 !macro JSRIND .addr {
-	lda #>.return_to_here-1
+	lda #>.return_to_here-1		; Push return address on to the stack
 	pha
 	lda #<.return_to_here-1
 	pha
@@ -23,7 +23,7 @@ RTSJSR_INC=1
 ; USES:		Register A 
 ;****************************************************************************
 !macro JSRABSX .addr {
-	lda #>.return_to_here-1
+	lda #>.return_to_here-1		; Push return address on to the stack
 	pha
 	lda #<.return_to_here-1
 	pha
