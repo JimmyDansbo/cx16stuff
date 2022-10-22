@@ -117,10 +117,11 @@ Show_clock:
 
 	; Set start address of clock and ensure VERA increments correctly
 	; This is top right corner in 80x60 mode
-	stz	VERA_ADDR_M
+	lda 	#$B0
+	sta	VERA_ADDR_M
 	lda	#144
 	sta	VERA_ADDR_L
-	lda	#$20
+	lda	#$21
 	sta	VERA_ADDR_H
 
 	; Write hours
