@@ -6,13 +6,18 @@
 !byte $0A,$00			; 2-byte line number ($000A = 10)
 !byte $9E			; SYS BASIC token
 !byte $20			; [space]
-!byte $32,$30,$36,$34		; $32="2",$30="0",$36="6",$34="4"
+!byte $32,$30,$37,$30		; $32="2",$30="0",$37="7",$30="0"
 				; (ASCII encoded nums for dec starting addr)
 !byte $00			; End of Line
-!byte $00,$00			; This is address $080C containing
-				; 2-byte pointer to next line of BASIC code
-				; ($0000 = end of program)
-*=$0810				; The actual program starts here
+!byte $12, $08 ; This is address $080C containing
+	; 2-byte pointer to next line of BASIC code
+!byte $14, $00 ; Line 20
+!byte $A2 ; NEW BASIC token
+!byte $00 ; [ end of line ]
+!byte $00,$00 ; ($0000 = end of program)
+!byte $00,$00	
+				
+*=$0816				; The actual program starts here
 
 
 Old_irq_handler	= $0404		; 2 bytes to hold old IRQ handler address
