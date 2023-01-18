@@ -9,12 +9,12 @@
 !byte $32,$30,$37,$30		; $32="2",$30="0",$37="7",$30="0"
 				; (ASCII encoded nums for dec starting addr)
 !byte $00			; End of Line
-!byte $12, $08 ; This is address $080C containing
-	; 2-byte pointer to next line of BASIC code
-!byte $14, $00 ; Line 20
-!byte $A2 ; NEW BASIC token
-!byte $00 ; [ end of line ]
-!byte $00,$00 ; ($0000 = end of program)
+!byte $12, $08			; This is address $080C containing
+				; 2-byte pointer to next line of BASIC code
+!byte $14, $00			; Line 20
+!byte $A2			; NEW BASIC token
+!byte $00			; [ end of line ]
+!byte $00,$00			; ($0000 = end of program)
 !byte $00,$00	
 				
 *=$0816				; The actual program starts here
@@ -36,6 +36,13 @@ VERA_ADDR_H	= $9F22
 VERA_ADDR_M	= $9F21
 VERA_ADDR_L	= $9F20
 VERA_DATA0	= $9F23
+
+RTC_ADDR	= $6F		; RTC chip is at address $6F
+RTC_HOUR	= $02		; First 3 register in chip is current clock
+RTC_MIN		= $01
+RTC_SEC		= $00
+
+i2c_read_byte	= $FEC6
 
 ; Write a BCD encoded number to screen.
 ; Assumes that correct address has been set before call and that VERA has
@@ -87,10 +94,19 @@ main:
 	cmp	#>End_show_clock ;if not equal, loop back
 	bne	@loop
 
-	; Store zeroes in hours, minutes and seconds variables
-	stz	Hour
-	stz	Minute
-	stz	Second
+	; Read hours, minutes and seconds from RTC and store them in local variables
+	ldx	#RTC_ADDR
+	ldy	#RTC_HOUR
+	jsr	$FEC6
+	sta	Hour
+	dey
+	jsr	$FEC6
+	sta	Minute
+	dey
+	jsr	$FEC6
+	and	#$7F		; Remove top bit as it just tells that RTC is running
+	sta	Second
+
 	; Initialize Jiffie_cnt variable
 	lda	#60
 	sta	Jiffie_cnt
