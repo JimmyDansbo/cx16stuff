@@ -29,14 +29,14 @@ NUMCOLS		= $0386
 NUMLINES	= $0387
 
 ; ROM Bank allocations
-KERNAL_BANK		= 0
-KEYBD_BANK		= 1
-CBDOS_BANK		= 2
-GEOS_BANK		= 3
-BASIC_BANK		= 4
+KERNAL_BANK	= 0
+KEYBD_BANK	= 1
+CBDOS_BANK	= 2
+GEOS_BANK	= 3
+BASIC_BANK	= 4
 MONITOR_BANK	= 5
 CHARSET_BANK	= 6
-CODEX_BANK		= 7
+CODEX_BANK	= 7
 
 ; ZeroPage variables/pointers
 TMP0		= $30
@@ -66,58 +66,58 @@ TMP_PTR7	= TMPe
 
 
 ; PETSCII color codes
-PET_BLACK		= $90
-PET_WHITE		= $05
-PET_RED			= $1C
-PET_CYAN		= $9F
-PET_PURPLE		= $9C
-PET_GREEN		= $1E
-PET_BLUE		= $1F
-PET_YELLOW		= $9E
-PET_ORANGE		= $81
-PET_BROWN		= $95
+PET_BLACK	= $90
+PET_WHITE	= $05
+PET_RED		= $1C
+PET_CYAN	= $9F
+PET_PURPLE	= $9C
+PET_GREEN	= $1E
+PET_BLUE	= $1F
+PET_YELLOW	= $9E
+PET_ORANGE	= $81
+PET_BROWN	= $95
 PET_LIGHTRED	= $96
 PET_DARKGRAY	= $97
-PET_MIDGRAY		= $98
+PET_MIDGRAY	= $98
 PET_LIGHTGREEN	= $99
 PET_LIGHTBLUE	= $9A
 PET_LIGHTGRAY	= $9B
 
 ; PETSCII control codes
 PET_SWAP_FGBG	= $01	; Swap foregound- & background- color
-PET_STOP		= $03
+PET_STOP	= $03
 PET_UNDERLINE	= $04	; only works in graphics text mode
-PET_BOLD		= $06	; only works in graphics text mode
-PET_BELL		= $07	; not yet implemented 27/01 2021
+PET_BOLD	= $06	; only works in graphics text mode
+PET_BELL	= $07	; not yet implemented 27/01 2021
 PET_BACKSPACE	= $08	; not yet implemented 27/01 2021
-PET_TAB			= $09	; not yet implemented 27/01 2021
+PET_TAB		= $09	; not yet implemented 27/01 2021
 PET_LINEFEED	= $0A	; not yet implemented 27/01 2021
-PET_ITALICS		= $0B	; only works in graphics text mode
-PET_OUTLINE		= $0C	; only works in graphics text mode
-PET_RETURN		= $0D
+PET_ITALICS	= $0B	; only works in graphics text mode
+PET_OUTLINE	= $0C	; only works in graphics text mode
+PET_RETURN	= $0D
 PET_CHR_LO_UP	= $0E	; Switch between lower and upper character set
-PET_ISO_ON		= $0F	; Enable ISO mode
+PET_ISO_ON	= $0F	; Enable ISO mode
 PET_CSR_DOWN	= $11	; Move cursor down
-PET_REVERSE		= $12
-PET_HOME		= $13
-PET_DELETE		= $14
+PET_REVERSE	= $12
+PET_HOME	= $13
+PET_DELETE	= $14
 PET_SHIFT_TAB	= $18	; not yet implemented 27/01 2021
 PET_CSR_RIGHT	= $1D	; Move cursor right
-PET_RUN			= $83
-PET_HELP		= $84
+PET_RUN		= $83
+PET_HELP	= $84
 PET_SHIFT_RET	= $8D	; Shift+Return
 PET_UP_GFX_CHAR	= $8E
-PET_ISO_OFF		= $8F	; Disable ISO mode
-PET_CSR_UP		= $91	; Move cursor up
+PET_ISO_OFF	= $8F	; Disable ISO mode
+PET_CSR_UP	= $91	; Move cursor up
 PET_REVERSE_OFF	= $92
-PET_CLEAR		= $93	; Clear screen
-PET_INSERT		= $94
+PET_CLEAR	= $93	; Clear screen
+PET_INSERT	= $94
 PET_CSR_LEFT	= $9D	; Move cursor left
 
 ; Color values
 BLACK		= 0
 WHITE		= 1
-RED			= 2
+RED		= 2
 CYAN		= 3
 PURPLE		= 4
 GREEN		= 5
@@ -159,77 +159,77 @@ SNES_L		= $20
 SNES_R		= $10
 
 ; "ABI" registers in ZeroPage
-r0			= $02
-r0l			= r0
-r0h			= r0+1
-r1			= $04
-r1l			= r1
-r1h			= r1+1
-r2			= $06
-r2l			= r2
-r2h			= r2+1
-r3			= $08
-r3l			= r3
-r3h			= r3+1
-r4			= $0A
-r4l			= r4
-r4h			= r4+1
-r5			= $0C
-r5l			= r5
-r5h			= r5+1
-r6			= $0E
-r6l			= r6
-r6h			= r6+1
-r7			= $10
-r7l			= r7
-r7h			= r7+1
-r8			= $12
-r8l			= r8
-r8h			= r8+1
-r9			= $14
-r9l			= r9
-r9h			= r9+1
-r10			= $16
+r0		= $02
+r0l		= r0
+r0h		= r0+1
+r1		= $04
+r1l		= r1
+r1h		= r1+1
+r2		= $06
+r2l		= r2
+r2h		= r2+1
+r3		= $08
+r3l		= r3
+r3h		= r3+1
+r4		= $0A
+r4l		= r4
+r4h		= r4+1
+r5		= $0C
+r5l		= r5
+r5h		= r5+1
+r6		= $0E
+r6l		= r6
+r6h		= r6+1
+r7		= $10
+r7l		= r7
+r7h		= r7+1
+r8		= $12
+r8l		= r8
+r8h		= r8+1
+r9		= $14
+r9l		= r9
+r9h		= r9+1
+r10		= $16
 r10l		= r10
 r10h		= r10+1
-r11			= $18
+r11		= $18
 r11l		= r11
 r11h		= r11+1
-r12			= $1A
+r12		= $1A
 r12l		= r12
 r12h		= r12+1
-r13			= $1C
+r13		= $1C
 r13l		= r13
 r13h		= r13+1
-r14			= $1E
+r14		= $1E
 r14l		= r14
 r14h		= r14+1
-r15			= $20
+r15		= $20
 r15l		= r15
 r15h		= r15+1
 
 ; extra registers in ZeroPage - not used by CX16 kernal, but shown in debugger
-x16			= $22
+x16		= $22
 x16l		= x16
 x16h		= x16+1
-x17			= $24
+x17		= $24
 x17l		= x17
 x17h		= x17+1
-x18			= $26
+x18		= $26
 x18l		= x18
 x18h		= x18+1
-x19			= $28
+x19		= $28
 x19l		= x19
 x19h		= x19+1
 
 ; extra registers in ZeroPage - not used by CX16 at all
-z20			= $2A
+z20		= $2A
 z20l		= z20
 z20h		= z20+1
-z21			= $2C
+z21		= $2C
 z21l		= z21
 z21h		= z21+1
-z22			= $2E
+z22		= $2E
 z22l		= z22
 z22h		= z22+1
 
@@ -295,8 +295,8 @@ Clock_set_data_time	= $FF4D
 Clock_get_date_time	= $FF50
 ;mouse
 Mouse_config		= $FF68
-Mouse_scan			= $FF71
-Mouse_get			= $FF6B
+Mouse_scan		= $FF71
+Mouse_get		= $FF6B
 ;joystick
 Joystick_scan		= $FF53
 Joystick_get		= $FF56
@@ -304,8 +304,8 @@ Joystick_get		= $FF56
 Sprite_set_image	= $FEF0
 Sprite_set_position	= $FEF3
 ;framebuffer
-FB_init				= $FEF6
-FB_get_info			= $FEF9
+FB_init			= $FEF6
+FB_get_info		= $FEF9
 FB_set_palette		= $FEFC
 FB_cursor_position	= $FEFF
 FB_cursor_next_line	= $FF02
@@ -319,8 +319,8 @@ FB_fill_pixels		= $FF17
 FB_filter_pixels	= $FF1A
 FB_move_pixels		= $FF1D
 ;graphics
-Graph_init			= $FF20
-Graph_clear			= $FF23
+Graph_init		= $FF20
+Graph_clear		= $FF23
 Graph_set_window	= $FF26
 Graph_set_colors	= $FF29
 Graph_draw_line		= $FF2C
@@ -338,16 +338,16 @@ Console_put_image	= $FED8
 Console_get_char	= $FEE1
 Console_set_paging_message	= $FED5
 ;other
-Memory_fill			= $FEE4
-Memory_copy			= $FEE7
-Memory_crc			= $FEEA
+Memory_fill		= $FEE4
+Memory_copy		= $FEE7
+Memory_crc		= $FEEA
 Memory_decompress	= $FEED
-Entropy_get			= $FECF
-Monitor				= $FF44
-Enter_basic			= $FF47
+Entropy_get		= $FECF
+Monitor			= $FF44
+Enter_basic		= $FF47
 Screen_set_mode		= $FF5F
 Screen_set_charset	= $FF62
-JSRFAR				= $FF6E
+JSRFAR			= $FF6E
 
 ; *****************************************************************************
 ; Save the address of the original interrupt handler
@@ -369,31 +369,48 @@ JSRFAR				= $FF6E
 ; USES:		A
 ; *****************************************************************************
 !macro INSTALL_INT_HANDLER .handler {
-	sei				; Disable interrupts
-	lda	#1			; Tell VERA that we want interrupts
+	sei			; Disable interrupts
+	lda	#1		; Tell VERA that we want interrupts
 	sta	VERA_IEN	; on each VSYNC
 	lda	#<.handler	; Write address of local interrupt
 	sta	IRQVECTOR	; handler to the interrupt
 	lda	#>.handler	; vector address ($0314)
 	sta	IRQVECTOR+1
-	cli				; Enable interrupts
+	cli			; Enable interrupts
 }
 
 ;******************************************************************************
 ; Code to enable program to be startet with the RUN command
 ;******************************************************************************
+; INPUT:	[.main] = address of main function. This way it is possible
+;		to jump over variables and code that is placed before the
+;		main function
+;******************************************************************************
+!macro SYS_LINE .main {
+*=$801
+	!word	.next_line		; Pointer to next BASIC line
+	!word	$000A			; Line number $000A = 10
+	!byte	$9E			; SYS BASIC token
+	!byte	48+(.main/1000)%10	; Address where ASM starts in PETSCII
+	!byte	48+(.main/100)%10
+	!byte	48+(.main/10)%10
+	!byte	48+(.main/1)%10
+	!byte	$00			; End of BASIC line
+.next_line:
+	!word	$0000			; End of BASIC program
+}
 !macro SYS_LINE {
 *=$801
-	!word	.next_line			; Pointer to next BASIC line
-	!word	$000A				; Line number $000A = 10
-	!byte	$9E					; SYS BASIC token
+	!word	.next_line		; Pointer to next BASIC line
+	!word	$000A			; Line number $000A = 10
+	!byte	$9E			; SYS BASIC token
 	!byte	48+(.entry/1000)%10	; Address where ASM starts in PETSCII
 	!byte	48+(.entry/100)%10
 	!byte	48+(.entry/10)%10
 	!byte	48+(.entry/1)%10
-	!byte	$00					; End of BASIC line
+	!byte	$00			; End of BASIC line
 .next_line:
-	!word	$0000				; End of BASIC program
+	!word	$0000			; End of BASIC program
 .entry:
 }
 
