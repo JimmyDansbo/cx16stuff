@@ -352,7 +352,7 @@ JSRFAR			= $FF6E
 ; *****************************************************************************
 ; Save the address of the original interrupt handler
 ; *****************************************************************************
-; USES:		A
+; USES:		.A
 ; OUTPUTS:	Address of old handler will be passed back in .old_handler
 ; *****************************************************************************
 !macro SAVE_INT_VECTOR .old_handler {
@@ -366,7 +366,7 @@ JSRFAR			= $FF6E
 ; Install new interrupt handler
 ; *****************************************************************************
 ; INPUTS:	.handler = address of new interrupt handler
-; USES:		A
+; USES:		.A
 ; *****************************************************************************
 !macro INSTALL_INT_HANDLER .handler {
 	sei			; Disable interrupts
@@ -418,21 +418,21 @@ JSRFAR			= $FF6E
 ; Get KERNAL version and convert it from 2's compliment number if it is a
 ; pre-release
 ;******************************************************************************
+; USES:		.Y
 ; RETURNS:	.A contains the KERNAL version
-;			.C cleared if pre-release version
+;		.C cleared if pre-release version
 ;******************************************************************************
 !macro GET_KERNAL_VER {
-	lda	ROM_BANK			; Save current ROM bank
-	tay						; in .Y
+	ldy	ROM_BANK		; Save current ROM bank
 	lda	#KERNAL_BANK		; Set ROM bank to 0
-	sta	ROM_BANK			; are used to set ROM bank
-	lda	KERNALVER			; Read KERNAL version
-	sty	ROM_BANK			; Restore ROM bank
-	sec						; Set carry to show it is release-version
-	bpl	.done				; If positive, we are done
-	eor	#$FF				; Invert and add 1 to convert the 2's
-	clc						; compliment number to the KERNAL version
+	sta	ROM_BANK
+	lda	KERNALVER		; Read KERNAL version
+	sty	ROM_BANK		; Restore ROM bank
+	sec				; Set carry to show it is release-version
+	bpl	.done			; If positive, we are done
+	eor	#$FF			; Invert and add 1 to convert the 2's
+	clc				; compliment number to the KERNAL version
 	adc	#1
-	clc						; Clear carry to show it is pre-release
+	clc				; Clear carry to show it is pre-release
 .done:
 }
