@@ -119,6 +119,11 @@ BPP8			= 3
 SPRITE_4BPP		= 0
 SPRITE_8BPP		= 1
 
+VSYNC_BIT		= %00000001
+LINE_BIT		= %00000010
+SPRCOL_BIT		= %00000100
+AFLOW_BIT		= %00001000
+
 ; ******************** Macros ********************
 
 ; **************************************************************************
@@ -322,28 +327,28 @@ SPRITE_8BPP		= 1
 ; [.addr]:		Optional address to load file to
 ;******************************************************************************
 !macro VLOAD .name_start, .name_end, .bank {
-	lda	#1							; Logical file number (must be unique)
-	ldx	#8							; Device number (8 local filesystem)
-	ldy	#1							; Secondary command 1 = use addr in file
-	jsr	$FFBA						; SETLFS
+	lda	#1				; Logical file number (must be unique)
+	ldx	#8				; Device number (8 local filesystem)
+	ldy	#1				; Secondary command 1 = use addr in file
+	jsr	$FFBA				; SETLFS
 	lda	#(.name_end-.name_start)	; Length of filename
-	ldx	#<.name_start				; Address of filename
+	ldx	#<.name_start			; Address of filename
 	ldy	#>.name_start
-	jsr	$FFBD						; SETNAM
-	lda	#.bank+2					; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
-	jsr	$FFD5						; LOAD
+	jsr	$FFBD				; SETNAM
+	lda	#.bank+2			; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
+	jsr	$FFD5				; LOAD
 }
 !macro VLOAD .name_start, .name_end, .bank, .addr {
-	lda	#1							; Logical file number (must be unique)
-	ldx	#8							; Device number (8 local filesystem)
-	ldy	#0							; Secondary command 0 = use addr provided to LOAD
-	jsr	$FFBA						; SETLFS
+	lda	#1				; Logical file number (must be unique)
+	ldx	#8				; Device number (8 local filesystem)
+	ldy	#0				; Secondary command 0 = use addr provided to LOAD
+	jsr	$FFBA				; SETLFS
 	lda	#(.name_end-.name_start)	; Length of filename
-	ldx	#<.name_start				; Address of filename
+	ldx	#<.name_start			; Address of filename
 	ldy	#>.name_start
-	jsr	$FFBD						; SETNAM
-	lda	#.bank+2					; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
+	jsr	$FFBD				; SETNAM
+	lda	#.bank+2			; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
 	ldx #<.addr
 	ldy #>.addr
-	jsr	$FFD5						; LOAD
+	jsr	$FFD5				; LOAD
 }
