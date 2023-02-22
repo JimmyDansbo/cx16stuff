@@ -321,10 +321,11 @@ AFLOW_BIT		= %00001000
 ; Load a binary file directly into VRAM.
 ; If address is not specified as parameter, it must be present in header of file
 ;******************************************************************************
-; .name_start:	The label at the start of the filename
-; .name_end:	The label at the end of the filename (used for computing length)
-; .bank:		Load to Bank 0 or 1 in VRAM
-; [.addr]:		Optional address to load file to
+; [.name_start & .name_end]: Adresses indicating start and end of name string
+; [.name]:	Immediate string containing the name of the file
+; .bank:	Load to Bank 0 or 1 in VRAM
+; [[~].addr]:	Optional address to load file to, if prefixed with ~ it only
+;		works with the .name option, not .name_start/.name_end
 ;******************************************************************************
 !macro VLOAD .name_start, .name_end, .bank {
 	lda	#1				; Logical file number (must be unique)
@@ -351,4 +352,38 @@ AFLOW_BIT		= %00001000
 	ldx #<.addr
 	ldy #>.addr
 	jsr	$FFD5				; LOAD
+}
+!macro VLOAD .name, .bank {
+	bra +
+.locname:
+	!text	.name
+.len=*-.locname			; Length of .name
++	lda	#1		; Logical file number (must be unique)
+	ldx	#8		; Device number (8 local filesystem)
+	ldy	#1		; Secondary command 1 = use addr in file
+	jsr	SETLFS
+	lda	#.len		; Length of filename
+	ldx	#<.locname	; Address of filename
+	ldy	#>.locname
+	jsr	SETNAM
+	lda	#.bank+2	; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
+	jsr	LOAD
+}
+!macro VLOAD .name, .bank, ~.addr {
+	bra +
+.locname:
+	!text	.name
+.len=*-.locname			; Length of .name
++	lda	#1		; Logical file number (must be unique)
+	ldx	#8		; Device number (8 local filesystem)
+	ldy	#0		; Secondary command 0 = use addr provided to LOAD
+	jsr	SETLFS
+	lda	#.len		; Length of filename
+	ldx	#<.locname	; Address of filename
+	ldy	#>.locname
+	jsr	SETNAM
+	lda	#.bank+2	; 0=load, 1=verify, 2=VRAM,0xxxx, 3=VRAM,1xxxx
+	ldx 	#<.addr
+	ldy 	#>.addr
+	jsr	LOAD
 }
