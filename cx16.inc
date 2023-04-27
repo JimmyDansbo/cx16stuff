@@ -8,6 +8,14 @@ VIA1PB		= VIA1+0
 VIA2		= $9F10
 VIA2PA		= VIA2+1
 VIA2PB		= VIA2+0
+YM2151		= $9F40
+YM2151ADDR	= YM2151
+YM2151DATA	= YM2151+1
+MMIO3		= $9F60
+MMIO4		= $9F80
+MMIO5		= $9FA0
+MMIO6		= $9FC0
+MMIO7		= $9FE0
 
 RAM_BANK_START	= $A000
 ROM_BANK_START	= $C000
@@ -20,8 +28,24 @@ ROM_BANK	= $01
 GIFCTRL		= $9FB5
 WAVCTRL		= $9FB6
 
-; IRQ
-IRQVECTOR	= $0314
+; Vectors
+IRQVECTOR	= $0314		; Left from previous version
+CINV		= $0314		; IRQ interrupt routine
+CBINV		= $0316		; BRK instruction interrupt
+NMINV		= $0318		; Non-maskable interrupt
+IOPEN		= $031A		; Kernal OPEN routine
+ICLOSE		= $031C		; Kernal CLOSE routine
+ICHKIN		= $031E		; Kernal CHKIN routine
+ICKOUT		= $0320		; Kernal CHKOUT routine
+ICLRCH		= $0322		; Kernal CLRCHN routine
+IBASIN		= $0324		; Kernal CHRIN/BASIN routine
+IBSOUT		= $0326		; Kernal CHROUT/BSOUT routine
+ISTOP		= $0328		; Kernal STOP routine
+IGETIN		= $032A		; Kernal GETIN routine
+ICLALL		= $032C		; Kernal CLALL routine
+KEYHANDLER	= $032E		; Kernal Key Event Handler
+ILOAD		= $0330		; Kernal LOAD routine
+ISAVE		= $0332		; Kernal SAVE routine
 
 ; Text mode ports (not supported and changes between ROM releases)
 COLORPORT	= $0376
@@ -37,6 +61,62 @@ BASIC_BANK	= 4
 MONITOR_BANK	= 5
 CHARSET_BANK	= 6
 CODEX_BANK	= 7
+GRAPH_BANK	= 8
+DEMO_BANK	= 9
+AUDIO_BANK	= 10
+UTIL_BANK	= 11
+BANNEX_BANK	= 12
+
+; I2C device addresses
+I2C_SMC		= $42
+I2C_RTC		= $6F
+
+; SMC registers
+SMC_power	= $01
+SMC_reset	= $02
+SMC_NMI		= $03
+SMC_power_led	= $04
+SMC_activity_led= $05
+SMC_kbd_buf	= $07
+SMC_ps2_status	= $18
+SMC_ps2_command	= $19
+SMC_mouse_buffer= $21
+; SMC values
+SMC_power_off	= $00
+SMC_hard_reboot	= $01
+SMC_reset	= $00
+SMC_inject_nmi	= $00
+
+; RTC registers
+RTC_clock_seconds	= $00
+RTC_clock_minutes	= $01
+RTC_clock_hours		= $02
+RTC_clock_weekday	= $03
+RTC_clock_day		= $04
+RTC_clock_month		= $05
+RTC_clock_year		= $06
+RTC_control		= $07
+RTC_oscillator_trim	= $08
+RTC_alarm0_seconds	= $0A
+RTC_alarm0_minutes	= $0B
+RTC_alarm0_hours	= $0C
+RTC_alarm0_weekday	= $0D
+RTC_alarm0_day		= $0E
+RTC_alarm0_month	= $0F
+RTC_alarm1_seconds	= $11
+RTC_alarm1_minutes	= $12
+RTC_alarm1_hours	= $13
+RTC_alarm1_weekday	= $14
+RTC_alarm1_day		= $15
+RTC_alarm1_month	= $16
+RTC_power-fail_minutes	= $18
+RTC_power-fail_hours	= $19
+RTC_power-fail_day	= $1A
+RTC_power-fail_month	= $1B
+RTC_power-up_minutes	= $1C
+RTC_power-up_hours	= $1D
+RTC_power-up_day	= $1E
+RTC_power-up_month	= $1F
 
 ; ZeroPage variables/pointers
 TMP0		= $30
@@ -140,6 +220,11 @@ SCR_MOD_40x30	= $03
 SCR_MOD_40x15	= $04
 SCR_MOD_20x30	= $05
 SCR_MOD_20x15	= $06
+SCR_MOD_22x23	= $07
+SCR_MOD_64x50	= $08
+SCR_MOD_64x25	= $09
+SCR_MOD_32x50	= $0A
+SCR_MOD_32x25	= $0B
 SCR_GFX_320x200	= $80	; 320x200@256c - 40x25 text
 SCR_GFX_640x400 = $81	; 640x400@16c (unsupported)
 SCR_MOD_TOGGLE	= $FF	; Toggle between $00 and $03
@@ -290,6 +375,18 @@ CMPARE		= $FF7A
 PRIMM		= $FF7D
 
 ; Commander X16 API
+; ChIO
+BSAVE			= $FEBA
+LKUPLA			= $FF59
+LKUPSA			= $FF5C
+; I2C
+i2c_read_byte		= $FEC6
+i2c_write_byte		= $FEC9
+;keyboard
+kbdbuf_get_modifiers	= $FEC0
+kbdbuf_peek		= $FEBD
+kbdbuf_put		= $FEC3
+keymap			= $FED2
 ;clock
 Clock_set_data_time	= $FF4D
 Clock_get_date_time	= $FF50
@@ -343,11 +440,131 @@ Memory_copy		= $FEE7
 Memory_crc		= $FEEA
 Memory_decompress	= $FEED
 Entropy_get		= $FECF
-Monitor			= $FF44
+MACPTR			= $FF44
+Monitor			= $FECC
 Enter_basic		= $FF47
-Screen_set_mode		= $FF5F
+Screen_mode		= $FF5F
 Screen_set_charset	= $FF62
 JSRFAR			= $FF6E
+
+; Commander X16 API - Math Library (ROM bank 4)
+; Format Conversions - Compatible with C128 & C65
+AYINT	= $FE00
+GIVAYF	= $FE03
+FOUT	= $FE06
+VAL_1	= $FE09
+GETADR	= $FE0C
+FLOATC	= $FE0F
+; Math Functions - Compatible with C128 & C65
+FSUB	= $FE12
+FSUBT	= $FE15
+FADD	= $FE18
+FADDT	= $FE1B
+FMULT	= $FE1E
+FMULTT	= $FE21
+FDIV	= $FE24
+FDIVT	= $FE27
+LOG	= $FE2A
+INT	= $FE2D
+SQR	= $FE30
+NEGOP	= $FE33
+FPWR	= $FE36
+FPWRT	= $FE39
+EXP	= $FE3C
+COS	= $FE3F
+SIN	= $FE42
+TAN	= $FE45
+ATN	= $FE48
+ROUND	= $FE4B
+ABS	= $FE4E
+SIGN	= $FE51
+FCOMP	= $FE54
+RND_0	= $FE57
+; Movement - Compatible with C128 & C65
+CONUPK	= $FE5A
+ROMUPK	= $FE5D
+MOVFRM	= $FE60
+MOVFM	= $FE63
+MOVMF	= $FE66
+MOVFA	= $FE69
+MOVAF	= $FE6C
+; X16 specific
+FADDH	= $FE6F
+ZEROFC	= $FE72
+NORMAL	= $FE75
+NEGFAC	= $FE78
+MUL10	= $FE7B
+DIV10	= $FE7E
+MOVEF	= $FE81
+SGN	= $FE84
+FLOAT	= $FE87
+FLOATS	= $FE8A
+QINT	= $FE8D
+FINLOG	= $FE90
+FOUTC	= $FE93
+POLYX	= $FE96
+POLY	= $FE99
+
+; Commander X16 API - Audio Library (ROM bank 10)
+audio_init		= $C09F
+; Basic commands
+bas_fmchordstring	= $C08D
+bas_fmfreq		= $C000
+bas_fmnote		= $C003
+bas_fmplaystring	= $C006
+bas_fmvib		= $C009
+bas_playstringvoice	= $C00C
+bas_psgchordstring	= $C090
+bas_psgfreq		= $C00F
+bas_psgnote		= $C012
+bas_psgwav		= $C015
+bas_psgplaystring	= $C018
+; Conversion commands
+notecon_bas2fm		= $C01B
+notecon_bas2midi	= $C01E
+notecon_bas2psg		= $C021
+notecon_fm2bas		= $C024
+notecon_fm2midi		= $C027
+notecon_fm2psg		= $C02A
+notecon_freq2bas	= $C02D
+notecon_freq2fm		= $C030
+notecon_freq2midi	= $C033
+notecon_freq2psg	= $C036
+notecon_midi2bas	= $C039
+notecon_midi2fm		= $C03C
+notecon_midi2psg	= $C03F
+notecon_psg2bas		= $C042
+notecon_psg2fm		= $C045
+notecon_psg2midi	= $C048
+; PSG commands
+psg_getatten		= $C093
+psg_getpan		= $C096
+psg_init		= $C04B
+psg_playfreq		= $C04E
+psg_read		= $C051
+psg_setatten		= $C054
+psg_setfreq		= $C057
+psg_setpan		= $C05A
+psg_setvol		= $C05D
+psg_write		= $C060
+psg_write_fast		= $C0A2
+; YM2151 commands
+ym_getatten		= $C099
+ym_getpan		= $C09C
+ym_init			= $C063
+ym_loaddefpatches	= $C066
+ym_loadpatch		= $C069
+ym_loadpatchlfn		= $C06C
+ym_playdrum		= $C06F
+ym_playnote		= $C072
+ym_setatten		= $C075
+ym_setdrum		= $C078
+ym_setnote		= $C07B
+ym_setpan		= $C07E
+ym_read			= $C081
+ym_release		= $C084
+ym_trigger		= $C087
+ym_write		= $C08A
 
 ; *****************************************************************************
 ; Save the address of the original interrupt handler
