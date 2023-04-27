@@ -97,13 +97,13 @@ main:
 	; Read hours, minutes and seconds from RTC and store them in local variables
 	ldx	#RTC_ADDR
 	ldy	#RTC_HOUR
-	jsr	$FEC6
+	jsr	i2c_read_byte
 	sta	Hour
 	dey
-	jsr	$FEC6
+	jsr	i2c_read_byte
 	sta	Minute
 	dey
-	jsr	$FEC6
+	jsr	i2c_read_byte
 	and	#$7F		; Remove top bit as it just tells that RTC is running
 	sta	Second
 
@@ -166,7 +166,7 @@ Show_clock:
 
 	dec	Jiffie_cnt
 	beq	@inc_sec
-	jmp	(Old_irq_handler)
+	bra	@continue
 	; Run every 60 jiffies = 1 second
 @inc_sec:
 	lda	#60		; Reset Jiffie_cnt
