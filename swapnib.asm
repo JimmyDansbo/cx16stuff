@@ -15,10 +15,10 @@
 ; Use the -debug option in the emulator to step through the code and see
 ; that nibbles are swapped.
 ;******************************************************************************
-	!byte $ff	; Break into the debugger
+	!byte $db	; Break into the debugger
 
 	lda	#$F5	; Set the nibbles that are going to be swapped
-	sta	$00	; Store en ZP for easy comparison after swap
+	sta	$02	; Store in ZP for easy comparison after swap
 	; 'Magic' code that swaps nibbles in .A
 	asl
 	adc	#$80
@@ -27,7 +27,7 @@
 	adc	#$80
 	rol
 	; Nibbles are now swapped.
-	sta	$01	; Store in ZP, now compare with ZP addr $00
+	sta	$03	; Store in ZP, now compare with ZP addr $02
 			; to see that the nibbles are swapped
 
 	rts
