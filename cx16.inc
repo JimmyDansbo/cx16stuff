@@ -73,7 +73,7 @@ I2C_RTC		= $6F
 
 ; SMC registers
 SMC_power	= $01
-SMC_reset	= $02
+SMC_reset_reg	= $02
 SMC_NMI		= $03
 SMC_power_led	= $04
 SMC_activity_led= $05
@@ -109,14 +109,14 @@ RTC_alarm1_hours	= $13
 RTC_alarm1_weekday	= $14
 RTC_alarm1_day		= $15
 RTC_alarm1_month	= $16
-RTC_power-fail_minutes	= $18
-RTC_power-fail_hours	= $19
-RTC_power-fail_day	= $1A
-RTC_power-fail_month	= $1B
-RTC_power-up_minutes	= $1C
-RTC_power-up_hours	= $1D
-RTC_power-up_day	= $1E
-RTC_power-up_month	= $1F
+RTC_power_fail_minutes	= $18
+RTC_power_fail_hours	= $19
+RTC_power_fail_day	= $1A
+RTC_power_fail_month	= $1B
+RTC_power_up_minutes	= $1C
+RTC_power_up_hours	= $1D
+RTC_power_up_day	= $1E
+RTC_power_up_month	= $1F
 
 ; ZeroPage variables/pointers
 TMP0		= $30
@@ -365,8 +365,6 @@ VECTOR		= $FF8D
 
 ; Commodore 128 API
 CLOSE_ALL	= $FF4A
-LKUPLA		= $FF8D
-LKUPSA		= $FF8A
 DLCHR		= $FF62
 PFKEY		= $FF65
 FETCH		= $FF74
