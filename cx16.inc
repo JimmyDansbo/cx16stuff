@@ -565,6 +565,106 @@ ym_trigger		= $C087
 ym_write		= $C08A
 
 ; *****************************************************************************
+; Branch on bit set - This is to replace the w65c02 bbs0-bbs7 opcodes
+; *****************************************************************************
+; USES:		.A
+; *****************************************************************************
+!macro BBS .bit_pos, .data, .dest {
+	!if .bit_pos = 7 {
+		bit .data
+		bmi .dest
+	} else {
+		!if .bit_pos = 6 {
+			bit .data
+			bvs .dest
+		} else {
+			lda .data
+			and #1 << .bit_pos
+			bne .dest
+		}
+	}
+}
+!macro bbs .bit_pos, .data, .dest {
+	!if .bit_pos = 7 {
+		bit .data
+		bmi .dest
+	} else {
+		!if .bit_pos = 6 {
+			bit .data
+			bvs .dest
+		} else {
+			lda .data
+			and #1 << .bit_pos
+			bne .dest
+		}
+	}
+}
+
+; *****************************************************************************
+; Branch on bit reset - This is to replace the w65c02 bbr0-bbr7 opcodes
+; *****************************************************************************
+; USES:		.A
+; *****************************************************************************
+!macro BBR .bit_pos, .data, .dest {
+	!if .bit_pos = 7 {
+		bit .data
+		bpl .dest
+	} else {
+		!if .bit_pos = 6 {
+			bit .data
+			bvc .dest
+		} else {
+			lda .data
+			and #1 << .bit_pos
+			beq .dest
+		}
+	}
+}
+!macro bbr .bit_pos, .data, .dest {
+	!if .bit_pos = 7 {
+		bit .data
+		bpl .dest
+	} else {
+		!if .bit_pos = 6 {
+			bit .data
+			bvc .dest
+		} else {
+			lda .data
+			and #1 << .bit_pos
+			beq .dest
+		}
+	}
+}
+
+; *****************************************************************************
+; Reset memory bit - This is to replace the w65c02 rmb0-rmb7 opcodes
+; *****************************************************************************
+; USES:		.A
+; *****************************************************************************
+!macro RMB .bit, .dest {
+	lda #1 << .bit
+	trb .dest
+}
+!macro rmb .bit, .dest {
+	lda #1 << .bit
+	trb .dest
+}
+
+; *****************************************************************************
+; Set memory bit - This is to replace the w65c02 smb0-smb7 opcodes
+; *****************************************************************************
+; USES:		.A
+; *****************************************************************************
+!macro SMB .bit, .dest {
+	lda #1 << .bit
+	tsb .dest
+}
+!macro smb .bit, .dest {
+	lda #1 << .bit
+	tsb .dest
+}
+
+; *****************************************************************************
 ; Save the address of the original interrupt handler
 ; *****************************************************************************
 ; USES:		.A
