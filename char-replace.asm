@@ -15,10 +15,10 @@
 	lda	#147		; Clear screen
 	jsr	CHROUT
 
-	lda	#$10
-	sta	VERA_ADDR_H	; Increment by 1, bank 0
-	lda	#$FE		; Set address to
-	sta	VERA_ADDR_M	; $F800+($dd*$8)=$FEE8
+	lda	#$11
+	sta	VERA_ADDR_H	; Increment by 1, bank 1
+	lda	#$F6		; Set address to
+	sta	VERA_ADDR_M	; $F000+($dd*$8)=$F6E8
 	lda	#$E8		; This places the custom chars
 	sta	VERA_ADDR_L	; at the end of the font table
 
@@ -167,9 +167,8 @@
 	ldy	#>.lin17
 	jsr	PrintStr
 
-	lda	#2
-	jsr	SetInc
-
+	lda	#$21
+	sta	VERA_ADDR_H
 
 	ldx	#1
 	ldy	#40
@@ -208,7 +207,11 @@
 ; Y = Y coordinate
 GotoXY:
 	; In text mode, Y coordinate is just stored in mid address
-	sty	VERA_ADDR_M
+	; but with $B0 added to it
+	tya
+	clc
+	adc	#$B0
+	sta	VERA_ADDR_M
 
 	; In text mode, X coordinate is stored in low address, but
 	; each character takes up 2 bytes. First one for the character
@@ -216,35 +219,6 @@ GotoXY:
 	txa			; Transfer X to A
 	asl			; Mutiply by 2
 	sta	VERA_ADDR_L
-	rts
-
-; A = Increment value
-;----------------------
-; Value | Amount
-;   0   |   0
-;   1   |   1
-;   2   |   2
-;   3   |   4
-;   4   |   8
-;   5   |   16
-;   6   |   32
-;   7   |   64
-;   8   |   128
-;   9   |   256
-;   A   |   512
-;   B   |   1024
-;   C   |   2048
-;   D   |   4096
-;   E   |   8192
-;   F   |   16384
-SetInc:
-	; Shift the lov nibble to high as it is stored in high nibble
-	; of vera_addr_hi
-	asl
-	asl
-	asl
-	asl
-	sta	VERA_ADDR_H
 	rts
 
 ; *******************************************************************
@@ -260,8 +234,8 @@ SetInc:
 PrintStr:
 	; Tell VERA to increment address by 2 every time we write to
 	; the data port
-	lda	#2
-	jsr	SetInc
+	lda	#$21
+	sta	VERA_ADDR_H
 
 	; Store address of string in ZP memory
 	stx	TMP0
