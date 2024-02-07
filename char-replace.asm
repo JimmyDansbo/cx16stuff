@@ -18,7 +18,7 @@
 	lda	#$11
 	sta	VERA_ADDR_H	; Increment by 1, bank 1
 	lda	#$F6		; Set address to
-	sta	VERA_ADDR_M	; $F000+($dd*$8)=$F6E8
+	sta	VERA_ADDR_M	; $F000+($DD*$8)=$F6E8
 	lda	#$E8		; This places the custom chars
 	sta	VERA_ADDR_L	; at the end of the font table
 
