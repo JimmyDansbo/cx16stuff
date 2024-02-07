@@ -1,3 +1,4 @@
+!cpu w65c02
 *=$0801
 !byte $0C,$08,$0A,$00,$9E,$20,$32,$30,$36,$34,$00,$00,$00
 *=$0810
@@ -10,6 +11,9 @@ vera_data1	= $9F24
 vera_ctrl	= $9F25
 vera_ien	= $9F26
 vera_isr	= $9F27
+
+str_ptr		= $02		; 2 bytes
+str_len		= $04
 
 main:
 
@@ -153,11 +157,15 @@ main:
 ; X = X coordinate
 ; Y = Y coordinate
 GotoXY:
-	; In text mode we never use the hi addresses so set it to 0
-	lda	#$00
+	; In text mode hi address is set to 1 as it starts at $1B000
+	lda	#$01
 	sta	vera_addr_hi
 	; In text mode, Y coordinate is just stored in mid address
-	sty	vera_addr_mid
+	; but $B0 is added to it
+	tya
+	clc
+	adc	#$B0
+	sta	vera_addr_mid
 
 	; In text mode, X coordinate is stored in low address, but
 	; each character takes up 2 bytes. First one for the character
@@ -187,12 +195,18 @@ GotoXY:
 ;   E   |   8192
 ;   F   |   16384
 SetInc:
-	; Shift the lov nibble to high as it is stored in high nibble
+	; Shift the low nibble to high as it is stored in high nibble
 	; of vera_addr_hi
 	asl
 	asl
 	asl
 	asl
+	pha
+	lda	vera_addr_hi	; Zero out high nibble of vera_addr_hi
+	and	#$0F
+	sta	vera_addr_hi
+	pla			; Combine inc value with vera_addr_hi
+	ora	vera_addr_hi	; low nibble
 	sta	vera_addr_hi
 	rts
 
@@ -213,17 +227,17 @@ PrintStr:
 	jsr	SetInc
 
 	; Store address of string in ZP memory
-	stx	$00
-	sty	$01
+	stx	str_ptr
+	sty	str_ptr+1
 	ldy	#0
-	lda	($00), Y	; Get length of string
-	sta	$02		; Store length in ZP for later
+	lda	(str_ptr), Y	; Get length of string
+	sta	str_len		; Store length in ZP for later
 	ldy	#0
 .doprint:
 	iny
-	lda	($00), Y	; Load character from string
+	lda	(str_ptr), Y	; Load character from string
 	sta	vera_data0	; Write character to VERA
-	cpy	$02		; Check if Y has reached length
+	cpy	str_len		; Check if Y has reached length
 	bne	.doprint	; If not, print next character
 	rts
 
