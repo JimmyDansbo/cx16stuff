@@ -18,7 +18,7 @@ CHROUT		=$FFD2
 ; CX16 ports
 ;*************************************************************************
 KERNALVER	=$FF80
-VIA1ROMBANK	=$9F60
+ROM_BANK	=$00
 
 ;*************************************************************************
 ; CX16 ROM constants
@@ -31,11 +31,11 @@ BASIC_BANK	=4
 MONITOR_BANK	=5
 
 
-	ldy	VIA1ROMBANK		; Save the current ROM bank
+	ldy	ROM_BANK		; Save the current ROM bank
 	lda	#KERNAL_BANK		; Set the kernal BANK
-	sta	VIA1ROMBANK
+	sta	ROM_BANK
 	lda	KERNALVER		; Read kernal version
-	sty	VIA1ROMBANK		; Restore ROM bank
+	sty	ROM_BANK		; Restore ROM bank
 
 	; Kernal version is stored as a twos compliment negative number
 	; as long as we have not reached a production build
@@ -45,24 +45,24 @@ MONITOR_BANK	=5
 	tay				; Copy result to Y
 	iny				; Add 1 to result
 
-	cpy	#35			; Check for version 35
-	bne	.is34			; If not, check for version 34
+	cpy	#45			; Check for version 45
+	bne	.is46			; If not, check for version 46
 	ldy	#0
--	lda	.v35,y
-	bne	.doprn35
+-	lda	.v45,y
+	bne	.doprn45
 	rts
-.doprn35:
+.doprn45:
 	jsr	CHROUT
 	iny
 	jmp	-
-.is34:
-	cpy	#34			; Check for version 34
+.is46:
+	cpy	#46			; Check for version 46
 	bne	.unknown		; If not, say we don't know the version
 	ldy	#0
--	lda	.v34,y
-	bne	.doprn34
+-	lda	.v46,y
+	bne	.doprn46
 	rts
-.doprn34:
+.doprn46:
 	jsr	CHROUT
 	iny
 	jmp	-
@@ -79,6 +79,6 @@ MONITOR_BANK	=5
 	rts
 
 
-.v35	!pet	"version: 35",13,0
-.v34	!pet	"version: 34",13,0
+.v45	!pet	"version: 45",13,0
+.v46	!pet	"version: 46",13,0
 .none	!pet	"version unknown",13,0
