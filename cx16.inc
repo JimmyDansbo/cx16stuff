@@ -50,24 +50,28 @@ ILOAD		= $0330		; Kernal LOAD routine
 ISAVE		= $0332		; Kernal SAVE routine
 
 ; Text mode ports (not supported and changes between ROM releases)
-COLORPORT	= $0376
-NUMCOLS		= $0386
-NUMLINES	= $0387
+COLORPORT	= $0376		; .color in kernal.sym
+NUMCOLS		= $0386		; .llen in kernal.sym
+NUMLINES	= $0387		; .nlines in kernal.sym
 
 ; ROM Bank allocations
 KERNAL_BANK	= 0
 KEYBD_BANK	= 1
 CBDOS_BANK	= 2
-GEOS_BANK	= 3
+FAT32_BANK	= 3
 BASIC_BANK	= 4
 MONITOR_BANK	= 5
 CHARSET_BANK	= 6
-CODEX_BANK	= 7
+DIAG_BANK	= 7
 GRAPH_BANK	= 8
 DEMO_BANK	= 9
 AUDIO_BANK	= 10
 UTIL_BANK	= 11
 BANNEX_BANK	= 12
+X16EDIT		= 13
+X16EDIT1	= 13
+X16EDIT2	= 14
+BASLOAD		= 15
 
 ; I2C device addresses
 I2C_SMC		= $42
