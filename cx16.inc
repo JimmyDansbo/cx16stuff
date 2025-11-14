@@ -26,9 +26,27 @@ ROM_BANK_SIZE	= $4000
 RAM_BANK	= $00
 ROM_BANK	= $01
 
-; Emulator
-GIFCTRL		= $9FB5
-WAVCTRL		= $9FB6
+; Emulator - https://github.com/X16Community/x16-emulator?tab=readme-ov-file#emulator-io-registers
+DEBUGENABLE	= $9FB0		; Sets or returns debug enabled flag
+VIDEOLOG	= $9FB1		; Sets or returns VRAM access log flag
+KEYBOARDLOG	= $9FB2		; Sets or returns keyboard logging flag
+ECHOMODE	= $9FB3		; Sets or returns echo mode flag
+EXITSAVE	= $9FB4		; Sets or returns save-on-exit flag
+GIFCTRL		= $9FB5		; Sets or returns GIF recorder state
+WAVCTRL		= $9FB6		; Sets or returns WAV recorder state
+CMDKEYS		= $9FB7		; Sets or returns Emulator Command key flag
+CPUCLK0		= $9FB8		; (read only) Latches CPU clock and returns bit 0-7
+CPUCLK1		= $9FB9		; (read only) Returns latched cpu clock bit 8-15
+CPUCLK2		= $9FBA		; (read only) Returns latched cpu clock bit 16-23
+CPUCLK3		= $9FBB		; (read only) Returns latched cpu clock bit 24-31
+RESETCPUCLK	= $9FB8		; (write only) Reset cpu clock counter to 0
+USRDEBUG1	= $9FB9		; (write only) Outputs "User debug 1: $xx" where xx is the value written
+USRDEBUG2	= $9FBA		; (write only) Outputs "User debug 2: $xx" where xx is the value written
+DEBUGOUTPUT	= $9FBB		; (write only) Outputs the given character to the console, like STDOUT
+
+KEYMAPID	= $9FBD		; (read only) Returns keymap index
+EMUPRESENCE1	= $9FBE		; (read only) Returns "1" if read in emulator
+EMUPRESENCE6	= $9FBF		; (read only) Returns "6" if read in emulator
 
 ; Vectors
 IRQVECTOR	= $0314		; Left from previous version
