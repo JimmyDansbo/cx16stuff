@@ -9,7 +9,7 @@
 CHROUT	= $FFD2
 
 
-main_func:!byte $ff
+main_func:
 	lda	#>@ret1-1	; Push return address onto stack
 	pha			; Otherwise the function that is called
 	lda	#<@ret1-1	; via the jumptable will not be able to
