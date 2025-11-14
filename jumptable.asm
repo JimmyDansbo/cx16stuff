@@ -9,17 +9,17 @@
 CHROUT	= $FFD2
 
 
-main_func:!byte $ff
+main_func:
 	inc	Count		; Addresses are 16bit so 2 bytes
 	inc	Count		; Increment twice
 	ldx	Count		; Load index to jump table
 	cpx	#8		; If it is 8, we have gone through all 4
 	beq	@main_end
 	lda	Jump_table,x	; Load LSB of address
-	sta	$00		; Store in ZP mem
+	sta	$02		; Store in ZP mem
 	lda	Jump_table+1,x	; Load MSB of address
-	sta	$00+1		; Store in ZP mem
-	jmp	($00)		; Do indrect jump to function
+	sta	$02+1		; Store in ZP mem
+	jmp	($02)		; Do indrect jump to function
 @main_end:
 	rts
 
