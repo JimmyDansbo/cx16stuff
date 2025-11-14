@@ -9,7 +9,7 @@
 CHROUT	= $FFD2
 
 
-main_func:!byte $ff
+main_func:
 	inc	Count		; Addresses are 16bit so 2 bytes
 	inc	Count		; Increment twice
 	ldx	Count		; Load index to jump table
