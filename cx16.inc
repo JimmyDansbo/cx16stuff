@@ -589,9 +589,69 @@ ym_trigger		= $C087
 ym_write		= $C08A
 
 ; *****************************************************************************
-; Branch on bit set - This is to replace the w65c02 bbs0-bbs7 opcodes
+; Sets Zero flag if running inside emulator
 ; *****************************************************************************
 ; USES:		.A
+; *****************************************************************************
+!macro ISEMU {
+	lda	EMUPRESENCE1
+	cmp	#"1"
+	bne	*+7
+	lda	EMUPRESENCE6
+	cmp	#"6"
+}
+
+; *****************************************************************************
+; Performs a JMP if code is executed within the emulator
+; *****************************************************************************
+!macro ISEMU_JMP .addr {
+	+ISEMU
+	bne	*+5
+	jmp	.addr
+}
+; *****************************************************************************
+; Performs a JMP if code is not executed within the emulator
+; *****************************************************************************
+!macro NOEMU_JMP .addr {
+	+ISEMU
+	beq	*+5
+	jmp	.addr
+}
+
+; *****************************************************************************
+; Performs a branch if code is executed within the emulator
+; *****************************************************************************
+!macro ISEMU_BRA .addr {
+	+ISEMU
+	beq	.addr
+}
+; *****************************************************************************
+; Performs a branch if code is not executed within the emulator
+; *****************************************************************************
+!macro NOEMU_BRA .addr {
+	+ISEMU
+	bne	.addr
+}
+
+; *****************************************************************************
+; Performs a JSR if code is executed within the emulator
+; *****************************************************************************
+!macro ISEMU_JSR .addr {
+	+ISEMU
+	bne	*+5
+	jsr	.addr
+}
+; *****************************************************************************
+; Performs a JSR if code is not executed within the emulator
+; *****************************************************************************
+!macro NOEMU_JSR .addr {
+	+ISEMU
+	beq	*+5
+	jsr	.addr
+}
+
+; *****************************************************************************
+; Branch on bit set - This is to replace the w65c02 bbs0-bbs7 opcodes
 ; *****************************************************************************
 !macro BBS .bit_pos, .data, .dest {
 	!if .bit_pos = 7 {
@@ -602,9 +662,13 @@ ym_write		= $C08A
 			bit .data
 			bvs .dest
 		} else {
+			pha
 			lda .data
 			and #1 << .bit_pos
-			bne .dest
+			beq +
+			pla
+			bra .dest
++			pla
 		}
 	}
 }
@@ -617,17 +681,19 @@ ym_write		= $C08A
 			bit .data
 			bvs .dest
 		} else {
+			pha
 			lda .data
 			and #1 << .bit_pos
-			bne .dest
+			beq +
+			pla
+			bra .dest
++			pla
 		}
 	}
 }
 
 ; *****************************************************************************
 ; Branch on bit reset - This is to replace the w65c02 bbr0-bbr7 opcodes
-; *****************************************************************************
-; USES:		.A
 ; *****************************************************************************
 !macro BBR .bit_pos, .data, .dest {
 	!if .bit_pos = 7 {
@@ -638,9 +704,13 @@ ym_write		= $C08A
 			bit .data
 			bvc .dest
 		} else {
+			pha
 			lda .data
 			and #1 << .bit_pos
-			beq .dest
+			bne +
+			pla
+			bra .dest
++			pla
 		}
 	}
 }
@@ -653,9 +723,13 @@ ym_write		= $C08A
 			bit .data
 			bvc .dest
 		} else {
+			pha
 			lda .data
 			and #1 << .bit_pos
-			beq .dest
+			bne +
+			pla
+			bra .dest
++			pla
 		}
 	}
 }
@@ -663,29 +737,33 @@ ym_write		= $C08A
 ; *****************************************************************************
 ; Reset memory bit - This is to replace the w65c02 rmb0-rmb7 opcodes
 ; *****************************************************************************
-; USES:		.A
-; *****************************************************************************
 !macro RMB .bit, .dest {
+	pha
 	lda #1 << .bit
 	trb .dest
+	pla
 }
 !macro rmb .bit, .dest {
+	pha
 	lda #1 << .bit
 	trb .dest
+	pla
 }
 
 ; *****************************************************************************
 ; Set memory bit - This is to replace the w65c02 smb0-smb7 opcodes
 ; *****************************************************************************
-; USES:		.A
-; *****************************************************************************
 !macro SMB .bit, .dest {
+	pha
 	lda #1 << .bit
 	tsb .dest
+	pla
 }
 !macro smb .bit, .dest {
+	pha
 	lda #1 << .bit
 	tsb .dest
+	pla
 }
 
 ; *****************************************************************************
